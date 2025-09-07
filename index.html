@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ForexMaster - Your Trading Companion</title>
+    <title>Tradeflow HQ - All in one hub for Forex Traders and Online Business Education</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Basic reset and global styles */
         * {
@@ -21,6 +22,7 @@
             --dark: #1e293b;
             --success: #10b981;
             --danger: #ef4444;
+            --gray: #64748b;
         }
         
         body {
@@ -57,6 +59,18 @@
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 400;
+            margin-left: 1rem;
+            padding-left: 1rem;
+            border-left: 1px solid #cbd5e1;
         }
         
         nav ul {
@@ -88,6 +102,9 @@
             cursor: pointer;
             transition: all 0.3s;
             border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .btn-primary {
@@ -108,6 +125,24 @@
         .btn-outline:hover {
             background-color: var(--primary);
             color: white;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #0d9660;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
         }
         
         /* Main content styles */
@@ -184,6 +219,7 @@
         
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
         
         .form-group label {
@@ -200,6 +236,32 @@
             border: 1px solid #cbd5e1;
             border-radius: 0.375rem;
             font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: var(--danger);
+        }
+        
+        .error-message {
+            color: var(--danger);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .form-group.error .error-message {
+            display: block;
         }
         
         .result {
@@ -300,9 +362,179 @@
             background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
             color: white;
             text-align: center;
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: 0.5rem;
             margin-bottom: 2rem;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .btn .spinner {
+            margin-right: 0.5rem;
+        }
+        
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .toast {
+            padding: 1rem 1.5rem;
+            border-radius: 0.375rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            background-color: var(--success);
+        }
+        
+        .toast.error {
+            background-color: var(--danger);
+        }
+        
+        .toast.info {
+            background-color: var(--primary);
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        /* Payment section */
+        .payment-section {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .payment-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: #10b981;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .payment-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Admin panel */
+        .admin-panel {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .admin-control {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e2e8f0;
         }
         
         /* Responsive design */
@@ -310,6 +542,13 @@
             .header-content {
                 flex-direction: column;
                 gap: 1rem;
+            }
+            
+            .tagline {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: none;
+                text-align: center;
             }
             
             nav ul {
@@ -323,15 +562,69 @@
             .hero p {
                 font-size: 1rem;
             }
+            
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .auth-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .payment-options {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Toast notifications container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Password reset modal -->
+    <div class="modal-overlay" id="resetPasswordModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
+            </div>
+            <div class="form-group" id="resetEmailGroup">
+                <label for="resetEmail">Email Address</label>
+                <input type="email" id="resetEmail" placeholder="your@email.com">
+                <div class="error-message" id="resetEmailError"></div>
+            </div>
+            <button class="btn btn-primary" onclick="sendPasswordReset()" id="resetPasswordBtn">
+                <span>Send Reset Link</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Email verification modal -->
+    <div class="modal-overlay" id="verifyEmailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Verify Your Email</h2>
+                <button class="modal-close" onclick="closeModal('verifyEmailModal')">&times;</button>
+            </div>
+            <p>We've sent a verification email to <span id="userEmail"></span>. Please check your inbox and verify your email address to access all features.</p>
+            <p>Didn't receive the email? <a href="#" onclick="sendVerificationEmail(); return false;">Resend verification email</a></p>
+        </div>
+    </div>
+
     <!-- Header with navigation -->
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo" onclick="showPage('home'); return false;">ForexMaster</a>
+                <div>
+                    <a href="#" class="logo" onclick="showPage('home'); return false;">
+                        <i class="fas fa-chart-line"></i>
+                        Tradeflow HQ
+                    </a>
+                    <span class="tagline">All in one hub for Forex Traders and Online Business Education</span>
+                </div>
                 <nav>
                     <ul>
                         <li><a href="#" onclick="showPage('home'); return false;">Home</a></li>
@@ -341,11 +634,17 @@
                     </ul>
                 </nav>
                 <div class="auth-buttons" id="authButtons">
-                    <button class="btn btn-outline" onclick="showPage('login')">Login</button>
-                    <button class="btn btn-primary" onclick="showPage('register')">Register</button>
+                    <button class="btn btn-outline" onclick="showPage('login')">
+                        <i class="fas fa-sign-in-alt"></i>Login
+                    </button>
+                    <button class="btn btn-primary" onclick="showPage('register')">
+                        <i class="fas fa-user-plus"></i>Register
+                    </button>
                 </div>
                 <div id="userMenu" style="display: none;">
-                    <button class="btn btn-primary" onclick="logout()">Logout</button>
+                    <button class="btn btn-primary" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>Logout
+                    </button>
                 </div>
             </div>
         </div>
@@ -358,22 +657,34 @@
             <div class="hero">
                 <h1>Master Forex Trading with Expert Tools</h1>
                 <p>Access free trading calculators, journal your trades, and unlock premium educational content to elevate your trading skills.</p>
-                <button class="btn btn-primary" onclick="showPage('register')">Get Started</button>
+                <button class="btn btn-primary" onclick="showPage('register')">
+                    <i class="fas fa-rocket"></i>Get Started
+                </button>
             </div>
             
-            <h2>Why Choose ForexMaster?</h2>
+            <h2>Why Choose Tradeflow HQ?</h2>
             <div class="features">
                 <div class="feature-card">
-                    <h3>Free Trading Tools</h3>
+                    <h3><i class="fas fa-calculator"></i> Free Trading Tools</h3>
                     <p>Calculate pip values, manage risk, and journal your trades with our professional-grade tools.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Premium Academy</h3>
+                    <h3><i class="fas fa-graduation-cap"></i> Premium Academy</h3>
                     <p>Access in-depth courses on Forex trading, online business, and advanced strategies.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Expert Blog</h3>
+                    <h3><i class="fas fa-book"></i> Expert Blog</h3>
                     <p>Learn from professional traders with our regularly updated educational content.</p>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h2>Upgrade to Premium Today!</h2>
+                <p>Get access to all our advanced courses, trading strategies, and personalized support.</p>
+                <div class="payment-options">
+                    <a href="https://flutterwave.com/pay/kp9tpqjve6cj" class="payment-button" target="_blank">
+                        <i class="fas fa-credit-card"></i> Upgrade with Flutterwave
+                    </a>
                 </div>
             </div>
         </section>
@@ -416,7 +727,9 @@
             <div id="toolsLoginRequired">
                 <h1>Trading Tools</h1>
                 <p>Please log in to access our free trading tools.</p>
-                <button class="btn btn-primary" onclick="showPage('login')">Login</button>
+                <button class="btn btn-primary" onclick="showPage('login')">
+                    <i class="fas fa-sign-in-alt"></i>Login
+                </button>
             </div>
             
             <div id="toolsContent" style="display: none;">
@@ -424,8 +737,8 @@
                 
                 <!-- PIP Calculator -->
                 <div class="tool">
-                    <h2>PIP Calculator</h2>
-                    <div class="form-group">
+                    <h2><i class="fas fa-calculator"></i> PIP Calculator</h2>
+                    <div class="form-group" id="pipCurrencyPairGroup">
                         <label for="currencyPair">Currency Pair</label>
                         <select id="currencyPair">
                             <option value="EUR/USD">EUR/USD</option>
@@ -434,12 +747,16 @@
                             <option value="AUD/USD">AUD/USD</option>
                             <option value="USD/CAD">USD/CAD</option>
                         </select>
+                        <div class="error-message" id="currencyPairError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="pipTradeSizeGroup">
                         <label for="tradeSize">Trade Size (Lots)</label>
                         <input type="number" id="tradeSize" placeholder="1.0" step="0.01" min="0.01">
+                        <div class="error-message" id="tradeSizeError"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="calculatePip()">Calculate</button>
+                    <button class="btn btn-primary" onclick="calculatePip()" id="pipCalculateBtn">
+                        <span>Calculate</span>
+                    </button>
                     
                     <div class="result" id="pipResult">
                         <h3>Result</h3>
@@ -449,20 +766,25 @@
                 
                 <!-- Risk Calculator -->
                 <div class="tool">
-                    <h2>Risk Calculator</h2>
-                    <div class="form-group">
+                    <h2><i class="fas fa-shield-alt"></i> Risk Calculator</h2>
+                    <div class="form-group" id="riskAccountSizeGroup">
                         <label for="accountSize">Account Size (USD)</label>
                         <input type="number" id="accountSize" placeholder="10000">
+                        <div class="error-message" id="accountSizeError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="riskPercentageGroup">
                         <label for="riskPercentage">Risk Percentage (%)</label>
-                        <input type="number" id="riskPercentage" placeholder="1" step="0.1" min="0.1">
+                        <input type="number" id="riskPercentage" placeholder="1" step="0.1" min="0.1" max="10">
+                        <div class="error-message" id="riskPercentageError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="riskStopLossGroup">
                         <label for="stopLoss">Stop Loss (PIPS)</label>
-                        <input type="number" id="stopLoss" placeholder="20">
+                        <input type="number" id="stopLoss" placeholder="20" min="1">
+                        <div class="error-message" id="stopLossError"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="calculateRisk()">Calculate</button>
+                    <button class="btn btn-primary" onclick="calculateRisk()" id="riskCalculateBtn">
+                        <span>Calculate</span>
+                    </button>
                     
                     <div class="result" id="riskResult">
                         <h3>Result</h3>
@@ -472,39 +794,48 @@
                 
                 <!-- Trade Journal -->
                 <div class="tool">
-                    <h2>Trade Journal</h2>
-                    <div class="form-group">
+                    <h2><i class="fas fa-book"></i> Trade Journal</h2>
+                    <div class="form-group" id="journalDateGroup">
                         <label for="tradeDate">Date</label>
                         <input type="date" id="tradeDate">
+                        <div class="error-message" id="tradeDateError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="journalSymbolGroup">
                         <label for="tradeSymbol">Symbol</label>
                         <input type="text" id="tradeSymbol" placeholder="EUR/USD">
+                        <div class="error-message" id="tradeSymbolError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="journalTypeGroup">
                         <label for="tradeType">Type</label>
                         <select id="tradeType">
                             <option value="buy">Buy</option>
                             <option value="sell">Sell</option>
                         </select>
+                        <div class="error-message" id="tradeTypeError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="journalSizeGroup">
                         <label for="tradeSizeJournal">Size (Lots)</label>
                         <input type="number" id="tradeSizeJournal" placeholder="1.0" step="0.01" min="0.01">
+                        <div class="error-message" id="tradeSizeJournalError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="journalEntryGroup">
                         <label for="tradeEntry">Entry Price</label>
-                        <input type="number" id="tradeEntry" placeholder="1.1250" step="0.0001">
+                        <input type="number" id="tradeEntry" placeholder="1.1250" step="0.0001" min="0">
+                        <div class="error-message" id="tradeEntryError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="journalExitGroup">
                         <label for="tradeExit">Exit Price</label>
-                        <input type="number" id="tradeExit" placeholder="1.1300" step="0.0001">
+                        <input type="number" id="tradeExit" placeholder="1.1300" step="0.0001" min="0">
+                        <div class="error-message" id="tradeExitError"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="journalNotesGroup">
                         <label for="tradeNotes">Notes</label>
                         <textarea id="tradeNotes" rows="3" placeholder="Trade rationale, observations, etc."></textarea>
+                        <div class="error-message" id="tradeNotesError"></div>
                     </div>
-                    <button class="btn btn-primary" onclick="saveTrade()">Save Trade</button>
+                    <button class="btn btn-primary" onclick="saveTrade()" id="saveTradeBtn">
+                        <span>Save Trade</span>
+                    </button>
                     
                     <div class="result" id="tradeResult">
                         <h3>Saved Trades</h3>
@@ -519,7 +850,9 @@
             <div id="academyLoginRequired">
                 <h1>Premium Academy</h1>
                 <p>Please log in to access our premium educational content.</p>
-                <button class="btn btn-primary" onclick="showPage('login')">Login</button>
+                <button class="btn btn-primary" onclick="showPage('login')">
+                    <i class="fas fa-sign-in-alt"></i>Login
+                </button>
             </div>
             
             <div id="academyFreeContent" style="display: none;">
@@ -527,26 +860,30 @@
                 <p>Upgrade to premium for full access to all courses.</p>
                 
                 <div class="premium-banner">
-                    <h2>Premium Features Unlocked</h2>
+                    <h2><i class="fas fa-crown"></i> Premium Features Unlocked</h2>
                     <p>Get access to all courses, advanced strategies, and personalized feedback</p>
-                    <button class="btn btn-primary">Upgrade Now</button>
+                    <a href="https://flutterwave.com/pay/kp9tpqjve6cj" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-credit-card"></i> Upgrade Now
+                    </a>
                 </div>
                 
                 <div class="features">
                     <div class="feature-card">
-                        <h3>Forex Basics (Free)</h3>
+                        <h3><i class="fas fa-play-circle"></i> Forex Basics (Free)</h3>
                         <p>Introduction to currency trading, terminology, and market mechanics.</p>
                         <button class="btn btn-outline">Access Course</button>
                     </div>
                     <div class="feature-card">
-                        <h3>Risk Management (Free)</h3>
+                        <h3><i class="fas fa-shield-alt"></i> Risk Management (Free)</h3>
                         <p>Learn how to protect your capital with proper position sizing.</p>
                         <button class="btn btn-outline">Access Course</button>
                     </div>
                     <div class="feature-card">
-                        <h3>Premium: Advanced Strategies</h3>
+                        <h3><i class="fas fa-chart-line"></i> Premium: Advanced Strategies</h3>
                         <p>Unlock complex trading strategies used by professional traders.</p>
-                        <button class="btn btn-primary">Upgrade to Access</button>
+                        <a href="https://flutterwave.com/pay/kp9tpqjve6cj" class="btn btn-primary" target="_blank">
+                            Upgrade to Access
+                        </a>
                     </div>
                 </div>
             </div>
@@ -557,24 +894,61 @@
                 
                 <div class="features">
                     <div class="feature-card">
-                        <h3>Forex Basics</h3>
+                        <h3><i class="fas fa-play-circle"></i> Forex Basics</h3>
                         <p>Introduction to currency trading, terminology, and market mechanics.</p>
                         <button class="btn btn-primary">Continue Course</button>
                     </div>
                     <div class="feature-card">
-                        <h3>Risk Management</h3>
+                        <h3><i class="fas fa-shield-alt"></i> Risk Management</h3>
                         <p>Learn how to protect your capital with proper position sizing.</p>
                         <button class="btn btn-primary">Continue Course</button>
                     </div>
                     <div class="feature-card">
-                        <h3>Advanced Strategies</h3>
+                        <h3><i class="fas fa-chart-line"></i> Advanced Strategies</h3>
                         <p>Complex trading strategies used by professional traders.</p>
                         <button class="btn btn-primary">Continue Course</button>
                     </div>
                     <div class="feature-card">
-                        <h3>Online Business Mastery</h3>
+                        <h3><i class="fas fa-briefcase"></i> Online Business Mastery</h3>
                         <p>Build a sustainable online business around trading.</p>
                         <button class="btn btn-primary">Continue Course</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Page -->
+        <section id="admin" class="page">
+            <div id="adminLoginRequired">
+                <h1>Admin Panel</h1>
+                <p>Please log in with an admin account to access the admin panel.</p>
+                <button class="btn btn-primary" onclick="showPage('login')">
+                    <i class="fas fa-sign-in-alt"></i>Login
+                </button>
+            </div>
+            
+            <div id="adminContent" style="display: none;">
+                <h1>Admin Panel</h1>
+                <p>Manage your website content and users.</p>
+                
+                <div class="admin-panel">
+                    <h2>Content Management</h2>
+                    <div class="admin-controls">
+                        <div class="admin-control">
+                            <h3>Blog Posts</h3>
+                            <p>Create and manage blog content</p>
+                            <button class="btn btn-outline">Manage Posts</button>
+                        </div>
+                        <div class="admin-control">
+                            <h3>Courses</h3>
+                            <p>Manage academy courses</p>
+                            <button class="btn btn-outline">Manage Courses</button>
+                        </div>
+                        <div class="admin-control">
+                            <h3>User Management</h3>
+                            <p>View and manage users</p>
+                            <button class="btn btn-outline">Manage Users</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -583,16 +957,23 @@
         <!-- Login Page -->
         <section id="login" class="page">
             <div class="tool">
-                <h2>Login to Your Account</h2>
-                <div class="form-group">
+                <h2><i class="fas fa-sign-in-alt"></i> Login to Your Account</h2>
+                <div class="form-group" id="loginEmailGroup">
                     <label for="loginEmail">Email</label>
                     <input type="email" id="loginEmail" placeholder="your@email.com">
+                    <div class="error-message" id="loginEmailError"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="loginPasswordGroup">
                     <label for="loginPassword">Password</label>
                     <input type="password" id="loginPassword" placeholder="Your password">
+                    <div class="error-message" id="loginPasswordError"></div>
                 </div>
-                <button class="btn btn-primary" onclick="login()">Login</button>
+                <button class="btn btn-primary" onclick="login()" id="loginBtn">
+                    <span>Login</span>
+                </button>
+                <p>
+                    <a href="#" onclick="showModal('resetPasswordModal'); return false;">Forgot your password?</a>
+                </p>
                 <p>Don't have an account? <a href="#" onclick="showPage('register'); return false;">Register here</a></p>
             </div>
         </section>
@@ -600,24 +981,30 @@
         <!-- Register Page -->
         <section id="register" class="page">
             <div class="tool">
-                <h2>Create an Account</h2>
-                <div class="form-group">
+                <h2><i class="fas fa-user-plus"></i> Create an Account</h2>
+                <div class="form-group" id="registerNameGroup">
                     <label for="registerName">Full Name</label>
                     <input type="text" id="registerName" placeholder="Your name">
+                    <div class="error-message" id="registerNameError"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="registerEmailGroup">
                     <label for="registerEmail">Email</label>
                     <input type="email" id="registerEmail" placeholder="your@email.com">
+                    <div class="error-message" id="registerEmailError"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="registerPasswordGroup">
                     <label for="registerPassword">Password</label>
                     <input type="password" id="registerPassword" placeholder="Create a password">
+                    <div class="error-message" id="registerPasswordError"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="registerPasswordConfirmGroup">
                     <label for="registerPasswordConfirm">Confirm Password</label>
                     <input type="password" id="registerPasswordConfirm" placeholder="Confirm your password">
+                    <div class="error-message" id="registerPasswordConfirmError"></div>
                 </div>
-                <button class="btn btn-primary" onclick="register()">Register</button>
+                <button class="btn btn-primary" onclick="register()" id="registerBtn">
+                    <span>Register</span>
+                </button>
                 <p>Already have an account? <a href="#" onclick="showPage('login'); return false;">Login here</a></p>
             </div>
         </section>
@@ -628,8 +1015,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>ForexMaster</h3>
-                    <p>Professional tools and education for Forex traders of all experience levels.</p>
+                    <h3>Tradeflow HQ</h3>
+                    <p>All in one hub for Forex Traders and Online Business Education.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
@@ -648,9 +1035,17 @@
                         <li><a href="#">Disclaimer</a></li>
                     </ul>
                 </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#" onclick="showModal('resetPasswordModal'); return false;">Reset Password</a></li>
+                        <li><a href="mailto:support@tradeflowhq.com">Contact Us</a></li>
+                        <li><a href="https://flutterwave.com/pay/kp9tpqjve6cj" target="_blank">Upgrade to Premium</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 ForexMaster. All rights reserved.</p>
+                <p>&copy; 2023 Tradeflow HQ. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -659,6 +1054,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
     
     <script>
         // Firebase configuration - you'll need to replace this with your own config
@@ -676,6 +1072,80 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+        const functions = firebase.functions();
+        
+        // Utility functions
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.getElementById('toastContainer').appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            // Hide toast after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+        
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        function setLoading(button, isLoading) {
+            const btn = document.getElementById(button);
+            if (isLoading) {
+                btn.disabled = true;
+                btn.querySelector('span').innerHTML = '<div class="spinner"></div> Loading...';
+            } else {
+                btn.disabled = false;
+                // Reset button text based on ID
+                if (button === 'loginBtn') btn.querySelector('span').textContent = 'Login';
+                else if (button === 'registerBtn') btn.querySelector('span').textContent = 'Register';
+                else if (button === 'pipCalculateBtn') btn.querySelector('span').textContent = 'Calculate';
+                else if (button === 'riskCalculateBtn') btn.querySelector('span').textContent = 'Calculate';
+                else if (button === 'saveTradeBtn') btn.querySelector('span').textContent = 'Save Trade';
+                else if (button === 'resetPasswordBtn') btn.querySelector('span').textContent = 'Send Reset Link';
+            }
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+        
+        function clearErrors(formPrefix) {
+            const groups = document.querySelectorAll(`[id^="${formPrefix}"]`);
+            groups.forEach(group => {
+                if (group.id.endsWith('Group')) {
+                    group.classList.remove('error');
+                }
+            });
+        }
+        
+        function setError(groupId, message) {
+            const group = document.getElementById(groupId);
+            group.classList.add('error');
+            const errorElement = group.querySelector('.error-message');
+            if (errorElement) {
+                errorElement.textContent = message;
+            }
+        }
         
         // Page navigation
         function showPage(pageId) {
@@ -689,6 +1159,12 @@
             
             // Scroll to top
             window.scrollTo(0, 0);
+            
+            // Update navigation active state
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`nav a[onclick*="${pageId}"]`).classList.add('active');
         }
         
         // Check authentication state
@@ -708,6 +1184,15 @@
                 // Check if user has premium access
                 checkPremiumStatus(user.uid);
                 
+                // Check if user is admin
+                checkAdminStatus(user.uid);
+                
+                // Check if email is verified
+                if (!user.emailVerified) {
+                    document.getElementById('userEmail').textContent = user.email;
+                    showModal('verifyEmailModal');
+                }
+                
                 // Load user data
                 loadUserData(user.uid);
             } else {
@@ -722,6 +1207,9 @@
                 document.getElementById('academyLoginRequired').style.display = 'block';
                 document.getElementById('academyFreeContent').style.display = 'none';
                 document.getElementById('academyPremiumContent').style.display = 'none';
+                
+                document.getElementById('adminLoginRequired').style.display = 'block';
+                document.getElementById('adminContent').style.display = 'none';
             }
         });
         
@@ -730,13 +1218,51 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
+            // Clear previous errors
+            clearErrors('login');
+            
+            let isValid = true;
+            
+            // Validate email
+            if (!email) {
+                setError('loginEmailGroup', 'Email is required');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                setError('loginEmailGroup', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Validate password
+            if (!password) {
+                setError('loginPasswordGroup', 'Password is required');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            setLoading('loginBtn', true);
+            
             auth.signInWithEmailAndPassword(email, password)
                 .then(userCredential => {
                     // Signed in 
+                    showToast('Login successful!', 'success');
                     showPage('tools');
                 })
                 .catch(error => {
-                    alert('Login error: ' + error.message);
+                    let errorMessage = 'Login error: ' + error.message;
+                    
+                    if (error.code === 'auth/user-not-found') {
+                        errorMessage = 'No account found with this email';
+                    } else if (error.code === 'auth/wrong-password') {
+                        errorMessage = 'Incorrect password';
+                    } else if (error.code === 'auth/user-disabled') {
+                        errorMessage = 'This account has been disabled';
+                    }
+                    
+                    showToast(errorMessage, 'error');
+                })
+                .finally(() => {
+                    setLoading('loginBtn', false);
                 });
         }
         
@@ -747,35 +1273,144 @@
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerPasswordConfirm').value;
             
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
+            // Clear previous errors
+            clearErrors('register');
+            
+            let isValid = true;
+            
+            // Validate name
+            if (!name) {
+                setError('registerNameGroup', 'Name is required');
+                isValid = false;
             }
+            
+            // Validate email
+            if (!email) {
+                setError('registerEmailGroup', 'Email is required');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                setError('registerEmailGroup', 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Validate password
+            if (!password) {
+                setError('registerPasswordGroup', 'Password is required');
+                isValid = false;
+            } else if (!validatePassword(password)) {
+                setError('registerPasswordGroup', 'Password must be at least 6 characters');
+                isValid = false;
+            }
+            
+            // Validate confirm password
+            if (password !== confirmPassword) {
+                setError('registerPasswordConfirmGroup', 'Passwords do not match');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            setLoading('registerBtn', true);
             
             auth.createUserWithEmailAndPassword(email, password)
                 .then(userCredential => {
                     // Signed up
                     const user = userCredential.user;
                     
+                    // Send email verification
+                    user.sendEmailVerification()
+                        .then(() => {
+                            showToast('Verification email sent! Please check your inbox.', 'info');
+                        });
+                    
                     // Save user profile
                     return db.collection('users').doc(user.uid).set({
                         name: name,
                         email: email,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        premium: false
+                        premium: false,
+                        admin: false,
+                        emailVerified: false
                     });
                 })
                 .then(() => {
+                    showToast('Registration successful!', 'success');
                     showPage('tools');
                 })
                 .catch(error => {
-                    alert('Registration error: ' + error.message);
+                    let errorMessage = 'Registration error: ' + error.message;
+                    
+                    if (error.code === 'auth/email-already-in-use') {
+                        errorMessage = 'This email is already registered';
+                    } else if (error.code === 'auth/weak-password') {
+                        errorMessage = 'Password is too weak';
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = 'Invalid email address';
+                    }
+                    
+                    showToast(errorMessage, 'error');
+                })
+                .finally(() => {
+                    setLoading('registerBtn', false);
+                });
+        }
+        
+        // Password reset function
+        function sendPasswordReset() {
+            const email = document.getElementById('resetEmail').value;
+            
+            // Clear previous errors
+            clearErrors('reset');
+            
+            if (!email) {
+                setError('resetEmailGroup', 'Email is required');
+                return;
+            } else if (!validateEmail(email)) {
+                setError('resetEmailGroup', 'Please enter a valid email address');
+                return;
+            }
+            
+            setLoading('resetPasswordBtn', true);
+            
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showToast('Password reset email sent! Please check your inbox.', 'success');
+                    closeModal('resetPasswordModal');
+                })
+                .catch(error => {
+                    let errorMessage = 'Error sending reset email: ' + error.message;
+                    
+                    if (error.code === 'auth/user-not-found') {
+                        errorMessage = 'No account found with this email';
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = 'Invalid email address';
+                    }
+                    
+                    showToast(errorMessage, 'error');
+                })
+                .finally(() => {
+                    setLoading('resetPasswordBtn', false);
+                });
+        }
+        
+        // Send verification email
+        function sendVerificationEmail() {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            user.sendEmailVerification()
+                .then(() => {
+                    showToast('Verification email sent! Please check your inbox.', 'success');
+                })
+                .catch(error => {
+                    showToast('Error sending verification email: ' + error.message, 'error');
                 });
         }
         
         // Logout function
         function logout() {
             auth.signOut().then(() => {
+                showToast('Logged out successfully', 'info');
                 showPage('home');
             });
         }
@@ -791,24 +1426,60 @@
                 });
         }
         
+        // Check admin status
+        function checkAdminStatus(uid) {
+            db.collection('users').doc(uid).get()
+                .then(doc => {
+                    if (doc.exists && doc.data().admin) {
+                        // Show admin tab in navigation
+                        const adminTab = document.createElement('li');
+                        adminTab.innerHTML = '<a href="#" onclick="showPage(\'admin\'); return false;">Admin</a>';
+                        document.querySelector('nav ul').appendChild(adminTab);
+                        
+                        document.getElementById('adminLoginRequired').style.display = 'none';
+                        document.getElementById('adminContent').style.display = 'block';
+                    }
+                });
+        }
+        
         // PIP Calculator
         function calculatePip() {
             const pair = document.getElementById('currencyPair').value;
             const size = parseFloat(document.getElementById('tradeSize').value) || 0;
             
-            // Simplified PIP calculation
-            // In a real app, you would use current exchange rates
-            let pipValue = 0;
+            // Clear previous errors
+            clearErrors('pip');
             
-            if (pair === 'EUR/USD') pipValue = 10 * size;
-            else if (pair === 'GBP/USD') pipValue = 10 * size;
-            else if (pair === 'USD/JPY') pipValue = 9 * size;
-            else if (pair === 'AUD/USD') pipValue = 10 * size;
-            else if (pair === 'USD/CAD') pipValue = 7.5 * size;
+            let isValid = true;
             
-            document.getElementById('pipValue').textContent = 
-                `PIP Value: $${pipValue.toFixed(2)} for ${size} lot(s) of ${pair}`;
-            document.getElementById('pipResult').classList.add('active');
+            // Validate trade size
+            if (!size || size <= 0) {
+                setError('pipTradeSizeGroup', 'Please enter a valid trade size');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            setLoading('pipCalculateBtn', true);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Simplified PIP calculation
+                // In a real app, you would use current exchange rates
+                let pipValue = 0;
+                
+                if (pair === 'EUR/USD') pipValue = 10 * size;
+                else if (pair === 'GBP/USD') pipValue = 10 * size;
+                else if (pair === 'USD/JPY') pipValue = 9 * size;
+                else if (pair === 'AUD/USD') pipValue = 10 * size;
+                else if (pair === 'USD/CAD') pipValue = 7.5 * size;
+                
+                document.getElementById('pipValue').textContent = 
+                    `PIP Value: $${pipValue.toFixed(2)} for ${size} lot(s) of ${pair}`;
+                document.getElementById('pipResult').classList.add('active');
+                
+                setLoading('pipCalculateBtn', false);
+            }, 800);
         }
         
         // Risk Calculator
@@ -817,18 +1488,54 @@
             const riskPercentage = parseFloat(document.getElementById('riskPercentage').value) || 0;
             const stopLoss = parseFloat(document.getElementById('stopLoss').value) || 0;
             
-            const riskAmount = accountSize * (riskPercentage / 100);
-            const positionSize = riskAmount / (stopLoss * 0.0001); // Simplified calculation
+            // Clear previous errors
+            clearErrors('risk');
             
-            document.getElementById('riskValue').textContent = 
-                `Risk Amount: $${riskAmount.toFixed(2)} | Position Size: $${positionSize.toFixed(2)}`;
-            document.getElementById('riskResult').classList.add('active');
+            let isValid = true;
+            
+            // Validate account size
+            if (!accountSize || accountSize <= 0) {
+                setError('riskAccountSizeGroup', 'Please enter a valid account size');
+                isValid = false;
+            }
+            
+            // Validate risk percentage
+            if (!riskPercentage || riskPercentage <= 0 || riskPercentage > 10) {
+                setError('riskPercentageGroup', 'Please enter a risk percentage between 0.1 and 10');
+                isValid = false;
+            }
+            
+            // Validate stop loss
+            if (!stopLoss || stopLoss <= 0) {
+                setError('riskStopLossGroup', 'Please enter a valid stop loss value');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            setLoading('riskCalculateBtn', true);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const riskAmount = accountSize * (riskPercentage / 100);
+                const positionSize = riskAmount / (stopLoss * 0.0001); // Simplified calculation
+                
+                document.getElementById('riskValue').textContent = 
+                    `Risk Amount: $${riskAmount.toFixed(2)} | Position Size: $${positionSize.toFixed(2)}`;
+                document.getElementById('riskResult').classList.add('active');
+                
+                setLoading('riskCalculateBtn', false);
+            }, 800);
         }
         
         // Save trade to journal
         function saveTrade() {
             const user = auth.currentUser;
-            if (!user) return;
+            if (!user) {
+                showToast('Please log in to save trades', 'error');
+                showPage('login');
+                return;
+            }
             
             const trade = {
                 date: document.getElementById('tradeDate').value,
@@ -841,13 +1548,63 @@
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
             
+            // Clear previous errors
+            clearErrors('journal');
+            
+            let isValid = true;
+            
+            // Validate date
+            if (!trade.date) {
+                setError('journalDateGroup', 'Date is required');
+                isValid = false;
+            }
+            
+            // Validate symbol
+            if (!trade.symbol) {
+                setError('journalSymbolGroup', 'Symbol is required');
+                isValid = false;
+            }
+            
+            // Validate size
+            if (!trade.size || trade.size <= 0) {
+                setError('journalSizeGroup', 'Please enter a valid trade size');
+                isValid = false;
+            }
+            
+            // Validate entry price
+            if (!trade.entry || trade.entry <= 0) {
+                setError('journalEntryGroup', 'Please enter a valid entry price');
+                isValid = false;
+            }
+            
+            // Validate exit price
+            if (!trade.exit || trade.exit <= 0) {
+                setError('journalExitGroup', 'Please enter a valid exit price');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            setLoading('saveTradeBtn', true);
+            
             db.collection('users').doc(user.uid).collection('trades').add(trade)
                 .then(() => {
-                    alert('Trade saved successfully!');
+                    showToast('Trade saved successfully!', 'success');
                     loadUserData(user.uid);
+                    
+                    // Clear form
+                    document.getElementById('tradeDate').value = '';
+                    document.getElementById('tradeSymbol').value = '';
+                    document.getElementById('tradeSizeJournal').value = '';
+                    document.getElementById('tradeEntry').value = '';
+                    document.getElementById('tradeExit').value = '';
+                    document.getElementById('tradeNotes').value = '';
                 })
                 .catch(error => {
-                    alert('Error saving trade: ' + error.message);
+                    showToast('Error saving trade: ' + error.message, 'error');
+                })
+                .finally(() => {
+                    setLoading('saveTradeBtn', false);
                 });
         }
         
@@ -868,12 +1625,26 @@
                     
                     querySnapshot.forEach(doc => {
                         const trade = doc.data();
+                        const tradeDate = new Date(trade.date).toLocaleDateString();
+                        const profitLoss = trade.type === 'buy' 
+                            ? (trade.exit - trade.entry) * trade.size * 10000
+                            : (trade.entry - trade.exit) * trade.size * 10000;
+                        
+                        const profitLossClass = profitLoss >= 0 ? 'success' : 'danger';
+                        const profitLossIcon = profitLoss >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+                        
                         const tradeEl = document.createElement('div');
                         tradeEl.className = 'trade-item';
                         tradeEl.innerHTML = `
-                            <p><strong>${trade.symbol}</strong> ${trade.type} | Size: ${trade.size} | Entry: ${trade.entry} | Exit: ${trade.exit}</p>
-                            <p>Date: ${trade.date} | Notes: ${trade.notes}</p>
-                            <hr>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <h4>${trade.symbol} ${trade.type.toUpperCase()}</h4>
+                                <span class="text-${profitLossClass}">
+                                    <i class="fas ${profitLossIcon}"></i> $${Math.abs(profitLoss).toFixed(2)}
+                                </span>
+                            </div>
+                            <p>Size: ${trade.size} lot(s) | Entry: ${trade.entry} | Exit: ${trade.exit}</p>
+                            <p>Date: ${tradeDate} ${trade.notes ? '| Notes: ' + trade.notes : ''}</p>
+                            <hr style="margin: 1rem 0;">
                         `;
                         tradesList.appendChild(tradeEl);
                     });
@@ -881,6 +1652,19 @@
                     document.getElementById('tradeResult').classList.add('active');
                 });
         }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+            }
+        });
+        
+        // Set current date as default for trade journal
+        document.getElementById('tradeDate').valueAsDate = new Date();
+        
+        // Initialize the app
+        showPage('home');
     </script>
 </body>
 </html>
