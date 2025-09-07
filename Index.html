@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForexMaster - Your Trading Companion</title>
+    <style>
+        /* Basic reset and global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2563eb;
+            --secondary: #0f172a;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Main content styles */
+        .page {
+            display: none;
+            padding: 2rem 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Hero section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 0.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Features grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Tool styles */
+        .tool {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .tool h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+        
+        .result {
+            background-color: #f1f5f9;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+        
+        .result.active {
+            display: block;
+        }
+        
+        /* Blog styles */
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .blog-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .blog-content {
+            padding: 1.5rem;
+        }
+        
+        .blog-content h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content p {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+        
+        .read-more {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Footer styles */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 3rem 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+        }
+        
+        /* Premium features */
+        .premium-banner {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo" onclick="showPage('home'); return false;">ForexMaster</a>
+                <nav>
+                    <ul>
+                        <li><a href="#" onclick="showPage('home'); return false;">Home</a></li>
+                        <li><a href="#" onclick="showPage('blog'); return false;">Blog</a></li>
+                        <li><a href="#" onclick="showPage('tools'); return false;">Tools</a></li>
+                        <li><a href="#" onclick="showPage('academy'); return false;">Academy</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn btn-outline" onclick="showPage('login')">Login</button>
+                    <button class="btn btn-primary" onclick="showPage('register')">Register</button>
+                </div>
+                <div id="userMenu" style="display: none;">
+                    <button class="btn btn-primary" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content sections -->
+    <main class="container">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h1>Master Forex Trading with Expert Tools</h1>
+                <p>Access free trading calculators, journal your trades, and unlock premium educational content to elevate your trading skills.</p>
+                <button class="btn btn-primary" onclick="showPage('register')">Get Started</button>
+            </div>
+            
+            <h2>Why Choose ForexMaster?</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Free Trading Tools</h3>
+                    <p>Calculate pip values, manage risk, and journal your trades with our professional-grade tools.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Premium Academy</h3>
+                    <p>Access in-depth courses on Forex trading, online business, and advanced strategies.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Expert Blog</h3>
+                    <p>Learn from professional traders with our regularly updated educational content.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Page -->
+        <section id="blog" class="page">
+            <h1>Forex Trading Blog</h1>
+            <p>Educational content and market insights for traders of all levels.</p>
+            
+            <div class="blog-posts">
+                <div class="blog-card">
+                    <img src="https://via.placeholder.com/400x200?text=Forex+Basics" alt="Forex Basics">
+                    <div class="blog-content">
+                        <h3>Understanding PIPs and Lots</h3>
+                        <p>Learn the fundamentals of Forex measurements and how to calculate position sizes.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="https://via.placeholder.com/400x200?text=Risk+Management" alt="Risk Management">
+                    <div class="blog-content">
+                        <h3>Risk Management Strategies</h3>
+                        <p>Protect your capital with these essential risk management techniques.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <img src="https://via.placeholder.com/400x200?text=Market+Analysis" alt="Market Analysis">
+                    <div class="blog-content">
+                        <h3>Technical Analysis Basics</h3>
+                        <p>Introduction to reading charts and identifying trading opportunities.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Page (requires login) -->
+        <section id="tools" class="page">
+            <div id="toolsLoginRequired">
+                <h1>Trading Tools</h1>
+                <p>Please log in to access our free trading tools.</p>
+                <button class="btn btn-primary" onclick="showPage('login')">Login</button>
+            </div>
+            
+            <div id="toolsContent" style="display: none;">
+                <h1>Professional Trading Tools</h1>
+                
+                <!-- PIP Calculator -->
+                <div class="tool">
+                    <h2>PIP Calculator</h2>
+                    <div class="form-group">
+                        <label for="currencyPair">Currency Pair</label>
+                        <select id="currencyPair">
+                            <option value="EUR/USD">EUR/USD</option>
+                            <option value="GBP/USD">GBP/USD</option>
+                            <option value="USD/JPY">USD/JPY</option>
+                            <option value="AUD/USD">AUD/USD</option>
+                            <option value="USD/CAD">USD/CAD</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tradeSize">Trade Size (Lots)</label>
+                        <input type="number" id="tradeSize" placeholder="1.0" step="0.01" min="0.01">
+                    </div>
+                    <button class="btn btn-primary" onclick="calculatePip()">Calculate</button>
+                    
+                    <div class="result" id="pipResult">
+                        <h3>Result</h3>
+                        <p id="pipValue"></p>
+                    </div>
+                </div>
+                
+                <!-- Risk Calculator -->
+                <div class="tool">
+                    <h2>Risk Calculator</h2>
+                    <div class="form-group">
+                        <label for="accountSize">Account Size (USD)</label>
+                        <input type="number" id="accountSize" placeholder="10000">
+                    </div>
+                    <div class="form-group">
+                        <label for="riskPercentage">Risk Percentage (%)</label>
+                        <input type="number" id="riskPercentage" placeholder="1" step="0.1" min="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="stopLoss">Stop Loss (PIPS)</label>
+                        <input type="number" id="stopLoss" placeholder="20">
+                    </div>
+                    <button class="btn btn-primary" onclick="calculateRisk()">Calculate</button>
+                    
+                    <div class="result" id="riskResult">
+                        <h3>Result</h3>
+                        <p id="riskValue"></p>
+                    </div>
+                </div>
+                
+                <!-- Trade Journal -->
+                <div class="tool">
+                    <h2>Trade Journal</h2>
+                    <div class="form-group">
+                        <label for="tradeDate">Date</label>
+                        <input type="date" id="tradeDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="tradeSymbol">Symbol</label>
+                        <input type="text" id="tradeSymbol" placeholder="EUR/USD">
+                    </div>
+                    <div class="form-group">
+                        <label for="tradeType">Type</label>
+                        <select id="tradeType">
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tradeSizeJournal">Size (Lots)</label>
+                        <input type="number" id="tradeSizeJournal" placeholder="1.0" step="0.01" min="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="tradeEntry">Entry Price</label>
+                        <input type="number" id="tradeEntry" placeholder="1.1250" step="0.0001">
+                    </div>
+                    <div class="form-group">
+                        <label for="tradeExit">Exit Price</label>
+                        <input type="number" id="tradeExit" placeholder="1.1300" step="0.0001">
+                    </div>
+                    <div class="form-group">
+                        <label for="tradeNotes">Notes</label>
+                        <textarea id="tradeNotes" rows="3" placeholder="Trade rationale, observations, etc."></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveTrade()">Save Trade</button>
+                    
+                    <div class="result" id="tradeResult">
+                        <h3>Saved Trades</h3>
+                        <div id="tradesList"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Academy Page (requires premium) -->
+        <section id="academy" class="page">
+            <div id="academyLoginRequired">
+                <h1>Premium Academy</h1>
+                <p>Please log in to access our premium educational content.</p>
+                <button class="btn btn-primary" onclick="showPage('login')">Login</button>
+            </div>
+            
+            <div id="academyFreeContent" style="display: none;">
+                <h1>Trading Academy</h1>
+                <p>Upgrade to premium for full access to all courses.</p>
+                
+                <div class="premium-banner">
+                    <h2>Premium Features Unlocked</h2>
+                    <p>Get access to all courses, advanced strategies, and personalized feedback</p>
+                    <button class="btn btn-primary">Upgrade Now</button>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <h3>Forex Basics (Free)</h3>
+                        <p>Introduction to currency trading, terminology, and market mechanics.</p>
+                        <button class="btn btn-outline">Access Course</button>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Risk Management (Free)</h3>
+                        <p>Learn how to protect your capital with proper position sizing.</p>
+                        <button class="btn btn-outline">Access Course</button>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Premium: Advanced Strategies</h3>
+                        <p>Unlock complex trading strategies used by professional traders.</p>
+                        <button class="btn btn-primary">Upgrade to Access</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="academyPremiumContent" style="display: none;">
+                <h1>Premium Academy</h1>
+                <p>Welcome to our premium educational content.</p>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <h3>Forex Basics</h3>
+                        <p>Introduction to currency trading, terminology, and market mechanics.</p>
+                        <button class="btn btn-primary">Continue Course</button>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Risk Management</h3>
+                        <p>Learn how to protect your capital with proper position sizing.</p>
+                        <button class="btn btn-primary">Continue Course</button>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Advanced Strategies</h3>
+                        <p>Complex trading strategies used by professional traders.</p>
+                        <button class="btn btn-primary">Continue Course</button>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Online Business Mastery</h3>
+                        <p>Build a sustainable online business around trading.</p>
+                        <button class="btn btn-primary">Continue Course</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Page -->
+        <section id="login" class="page">
+            <div class="tool">
+                <h2>Login to Your Account</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Your password">
+                </div>
+                <button class="btn btn-primary" onclick="login()">Login</button>
+                <p>Don't have an account? <a href="#" onclick="showPage('register'); return false;">Register here</a></p>
+            </div>
+        </section>
+
+        <!-- Register Page -->
+        <section id="register" class="page">
+            <div class="tool">
+                <h2>Create an Account</h2>
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="registerPasswordConfirm">Confirm Password</label>
+                    <input type="password" id="registerPasswordConfirm" placeholder="Confirm your password">
+                </div>
+                <button class="btn btn-primary" onclick="register()">Register</button>
+                <p>Already have an account? <a href="#" onclick="showPage('login'); return false;">Login here</a></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ForexMaster</h3>
+                    <p>Professional tools and education for Forex traders of all experience levels.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('home'); return false;">Home</a></li>
+                        <li><a href="#" onclick="showPage('blog'); return false;">Blog</a></li>
+                        <li><a href="#" onclick="showPage('tools'); return false;">Tools</a></li>
+                        <li><a href="#" onclick="showPage('academy'); return false;">Academy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ForexMaster. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        // Firebase configuration - you'll need to replace this with your own config
+        const firebaseConfig = {
+  apiKey: "AIzaSyCN-4ptseDOfTFgH8PcAmUVp316i1Wa-jg",
+  authDomain: "tradeflowhq-aabc3.firebaseapp.com",
+  projectId: "tradeflowhq-aabc3",
+  storageBucket: "tradeflowhq-aabc3.firebasestorage.app",
+  messagingSenderId: "847322653605",
+  appId: "1:847322653605:web:d2a7370eb28b0c2c903e4c",
+  measurementId: "G-0JZX0NGRFX"
+};
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the requested page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Check authentication state
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                // User is signed in
+                document.getElementById('authButtons').style.display = 'none';
+                document.getElementById('userMenu').style.display = 'block';
+                
+                // Show protected content
+                document.getElementById('toolsLoginRequired').style.display = 'none';
+                document.getElementById('toolsContent').style.display = 'block';
+                
+                document.getElementById('academyLoginRequired').style.display = 'none';
+                document.getElementById('academyFreeContent').style.display = 'block';
+                
+                // Check if user has premium access
+                checkPremiumStatus(user.uid);
+                
+                // Load user data
+                loadUserData(user.uid);
+            } else {
+                // User is signed out
+                document.getElementById('authButtons').style.display = 'flex';
+                document.getElementById('userMenu').style.display = 'none';
+                
+                // Hide protected content
+                document.getElementById('toolsLoginRequired').style.display = 'block';
+                document.getElementById('toolsContent').style.display = 'none';
+                
+                document.getElementById('academyLoginRequired').style.display = 'block';
+                document.getElementById('academyFreeContent').style.display = 'none';
+                document.getElementById('academyPremiumContent').style.display = 'none';
+            }
+        });
+        
+        // Login function
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then(userCredential => {
+                    // Signed in 
+                    showPage('tools');
+                })
+                .catch(error => {
+                    alert('Login error: ' + error.message);
+                });
+        }
+        
+        // Register function
+        function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerPasswordConfirm').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(userCredential => {
+                    // Signed up
+                    const user = userCredential.user;
+                    
+                    // Save user profile
+                    return db.collection('users').doc(user.uid).set({
+                        name: name,
+                        email: email,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        premium: false
+                    });
+                })
+                .then(() => {
+                    showPage('tools');
+                })
+                .catch(error => {
+                    alert('Registration error: ' + error.message);
+                });
+        }
+        
+        // Logout function
+        function logout() {
+            auth.signOut().then(() => {
+                showPage('home');
+            });
+        }
+        
+        // Check premium status
+        function checkPremiumStatus(uid) {
+            db.collection('users').doc(uid).get()
+                .then(doc => {
+                    if (doc.exists && doc.data().premium) {
+                        document.getElementById('academyFreeContent').style.display = 'none';
+                        document.getElementById('academyPremiumContent').style.display = 'block';
+                    }
+                });
+        }
+        
+        // PIP Calculator
+        function calculatePip() {
+            const pair = document.getElementById('currencyPair').value;
+            const size = parseFloat(document.getElementById('tradeSize').value) || 0;
+            
+            // Simplified PIP calculation
+            // In a real app, you would use current exchange rates
+            let pipValue = 0;
+            
+            if (pair === 'EUR/USD') pipValue = 10 * size;
+            else if (pair === 'GBP/USD') pipValue = 10 * size;
+            else if (pair === 'USD/JPY') pipValue = 9 * size;
+            else if (pair === 'AUD/USD') pipValue = 10 * size;
+            else if (pair === 'USD/CAD') pipValue = 7.5 * size;
+            
+            document.getElementById('pipValue').textContent = 
+                `PIP Value: $${pipValue.toFixed(2)} for ${size} lot(s) of ${pair}`;
+            document.getElementById('pipResult').classList.add('active');
+        }
+        
+        // Risk Calculator
+        function calculateRisk() {
+            const accountSize = parseFloat(document.getElementById('accountSize').value) || 0;
+            const riskPercentage = parseFloat(document.getElementById('riskPercentage').value) || 0;
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value) || 0;
+            
+            const riskAmount = accountSize * (riskPercentage / 100);
+            const positionSize = riskAmount / (stopLoss * 0.0001); // Simplified calculation
+            
+            document.getElementById('riskValue').textContent = 
+                `Risk Amount: $${riskAmount.toFixed(2)} | Position Size: $${positionSize.toFixed(2)}`;
+            document.getElementById('riskResult').classList.add('active');
+        }
+        
+        // Save trade to journal
+        function saveTrade() {
+            const user = auth.currentUser;
+            if (!user) return;
+            
+            const trade = {
+                date: document.getElementById('tradeDate').value,
+                symbol: document.getElementById('tradeSymbol').value,
+                type: document.getElementById('tradeType').value,
+                size: parseFloat(document.getElementById('tradeSizeJournal').value) || 0,
+                entry: parseFloat(document.getElementById('tradeEntry').value) || 0,
+                exit: parseFloat(document.getElementById('tradeExit').value) || 0,
+                notes: document.getElementById('tradeNotes').value,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            db.collection('users').doc(user.uid).collection('trades').add(trade)
+                .then(() => {
+                    alert('Trade saved successfully!');
+                    loadUserData(user.uid);
+                })
+                .catch(error => {
+                    alert('Error saving trade: ' + error.message);
+                });
+        }
+        
+        // Load user data (trades)
+        function loadUserData(uid) {
+            // Load trades
+            db.collection('users').doc(uid).collection('trades')
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(querySnapshot => {
+                    const tradesList = document.getElementById('tradesList');
+                    tradesList.innerHTML = '';
+                    
+                    if (querySnapshot.empty) {
+                        tradesList.innerHTML = '<p>No trades recorded yet.</p>';
+                        return;
+                    }
+                    
+                    querySnapshot.forEach(doc => {
+                        const trade = doc.data();
+                        const tradeEl = document.createElement('div');
+                        tradeEl.className = 'trade-item';
+                        tradeEl.innerHTML = `
+                            <p><strong>${trade.symbol}</strong> ${trade.type} | Size: ${trade.size} | Entry: ${trade.entry} | Exit: ${trade.exit}</p>
+                            <p>Date: ${trade.date} | Notes: ${trade.notes}</p>
+                            <hr>
+                        `;
+                        tradesList.appendChild(tradeEl);
+                    });
+                    
+                    document.getElementById('tradeResult').classList.add('active');
+                });
+        }
+    </script>
+</body>
+</html>
