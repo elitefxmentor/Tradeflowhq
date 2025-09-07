@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tradeflow HQ - All in one hub for Forex Traders and Online Business Education</title>
+    <title>Tradeflow HQ - Content Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Basic reset and global styles */
@@ -86,7 +86,7 @@
             transition: color 0.3s;
         }
         
-        nav a:hover {
+        nav a:hover, nav a.active {
             color: var(--primary);
         }
         
@@ -288,6 +288,11 @@
             border-radius: 0.5rem;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
         }
         
         .blog-card img {
@@ -302,6 +307,12 @@
         
         .blog-content h3 {
             margin-bottom: 0.5rem;
+        }
+        
+        .blog-content .blog-meta {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
         }
         
         .blog-content p {
@@ -454,7 +465,9 @@
             border-radius: 0.5rem;
             padding: 2rem;
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             transform: translateY(20px);
             transition: transform 0.3s;
@@ -535,6 +548,67 @@
             padding: 1rem;
             border-radius: 0.375rem;
             border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .admin-control h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        /* Content management */
+        .content-list {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .content-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .content-item:last-child {
+            border-bottom: none;
+        }
+        
+        .content-item-info h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .content-item-meta {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        .content-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Rich text editor */
+        .editor-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .editor-button {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .editor-button:hover {
+            background: #e2e8f0;
         }
         
         /* Responsive design */
@@ -577,6 +651,16 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .content-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .content-item-actions {
+                align-self: flex-end;
+            }
         }
     </style>
 </head>
@@ -602,15 +686,121 @@
         </div>
     </div>
 
-    <!-- Email verification modal -->
-    <div class="modal-overlay" id="verifyEmailModal">
+    <!-- Blog editor modal -->
+    <div class="modal-overlay" id="blogEditorModal">
         <div class="modal">
             <div class="modal-header">
-                <h2>Verify Your Email</h2>
-                <button class="modal-close" onclick="closeModal('verifyEmailModal')">&times;</button>
+                <h2 id="blogEditorTitle">Add New Blog Post</h2>
+                <button class="modal-close" onclick="closeModal('blogEditorModal')">&times;</button>
             </div>
-            <p>We've sent a verification email to <span id="userEmail"></span>. Please check your inbox and verify your email address to access all features.</p>
-            <p>Didn't receive the email? <a href="#" onclick="sendVerificationEmail(); return false;">Resend verification email</a></p>
+            <div class="form-group" id="blogTitleGroup">
+                <label for="blogTitle">Title</label>
+                <input type="text" id="blogTitle" placeholder="Enter blog title">
+                <div class="error-message" id="blogTitleError"></div>
+            </div>
+            <div class="form-group" id="blogSummaryGroup">
+                <label for="blogSummary">Summary</label>
+                <textarea id="blogSummary" placeholder="Brief summary of the blog post" rows="3"></textarea>
+                <div class="error-message" id="blogSummaryError"></div>
+            </div>
+            <div class="form-group" id="blogContentGroup">
+                <label for="blogContent">Content</label>
+                <div class="editor-toolbar">
+                    <button class="editor-button" onclick="formatText('bold')"><i class="fas fa-bold"></i></button>
+                    <button class="editor-button" onclick="formatText('italic')"><i class="fas fa-italic"></i></button>
+                    <button class="editor-button" onclick="formatText('underline')"><i class="fas fa-underline"></i></button>
+                    <button class="editor-button" onclick="insertHeading()"><i class="fas fa-heading"></i></button>
+                    <button class="editor-button" onclick="insertList('ul')"><i class="fas fa-list-ul"></i></button>
+                    <button class="editor-button" onclick="insertList('ol')"><i class="fas fa-list-ol"></i></button>
+                </div>
+                <textarea id="blogContent" placeholder="Write your blog content here" rows="10"></textarea>
+                <div class="error-message" id="blogContentError"></div>
+            </div>
+            <div class="form-group" id="blogImageGroup">
+                <label for="blogImage">Image URL</label>
+                <input type="text" id="blogImage" placeholder="https://example.com/image.jpg">
+                <div class="error-message" id="blogImageError"></div>
+            </div>
+            <div class="form-group" id="blogCategoryGroup">
+                <label for="blogCategory">Category</label>
+                <select id="blogCategory">
+                    <option value="Forex Basics">Forex Basics</option>
+                    <option value="Trading Strategies">Trading Strategies</option>
+                    <option value="Risk Management">Risk Management</option>
+                    <option value="Market Analysis">Market Analysis</option>
+                    <option value="Psychology">Psychology</option>
+                </select>
+                <div class="error-message" id="blogCategoryError"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveBlogPost()" id="saveBlogBtn">
+                <span>Publish Blog Post</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Course editor modal -->
+    <div class="modal-overlay" id="courseEditorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="courseEditorTitle">Add New Course</h2>
+                <button class="modal-close" onclick="closeModal('courseEditorModal')">&times;</button>
+            </div>
+            <div class="form-group" id="courseTitleGroup">
+                <label for="courseTitle">Title</label>
+                <input type="text" id="courseTitle" placeholder="Enter course title">
+                <div class="error-message" id="courseTitleError"></div>
+            </div>
+            <div class="form-group" id="courseDescriptionGroup">
+                <label for="courseDescription">Description</label>
+                <textarea id="courseDescription" placeholder="Describe the course" rows="3"></textarea>
+                <div class="error-message" id="courseDescriptionError"></div>
+            </div>
+            <div class="form-group" id="courseContentGroup">
+                <label for="courseContent">Course Content</label>
+                <div class="editor-toolbar">
+                    <button class="editor-button" onclick="formatText('bold', 'courseContent')"><i class="fas fa-bold"></i></button>
+                    <button class="editor-button" onclick="formatText('italic', 'courseContent')"><i class="fas fa-italic"></i></button>
+                    <button class="editor-button" onclick="formatText('underline', 'courseContent')"><i class="fas fa-underline"></i></button>
+                    <button class="editor-button" onclick="insertHeading('courseContent')"><i class="fas fa-heading"></i></button>
+                </div>
+                <textarea id="courseContent" placeholder="Enter the course content" rows="10"></textarea>
+                <div class="error-message" id="courseContentError"></div>
+            </div>
+            <div class="form-group" id="courseImageGroup">
+                <label for="courseImage">Image URL</label>
+                <input type="text" id="courseImage" placeholder="https://example.com/image.jpg">
+                <div class="error-message" id="courseImageError"></div>
+            </div>
+            <div class="form-group" id="courseLevelGroup">
+                <label for="courseLevel">Level</label>
+                <select id="courseLevel">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+                <div class="error-message" id="courseLevelError"></div>
+            </div>
+            <div class="form-group" id="courseCategoryGroup">
+                <label for="courseCategory">Category</label>
+                <select id="courseCategory">
+                    <option value="Forex Trading">Forex Trading</option>
+                    <option value="Online Business">Online Business</option>
+                    <option value="Investment Strategies">Investment Strategies</option>
+                    <option value="Market Analysis">Market Analysis</option>
+                </select>
+                <div class="error-message" id="courseCategoryError"></div>
+            </div>
+            <div class="form-group" id="coursePremiumGroup">
+                <label for="coursePremium">Course Type</label>
+                <select id="coursePremium">
+                    <option value="free">Free</option>
+                    <option value="premium">Premium</option>
+                </select>
+                <div class="error-message" id="coursePremiumError"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveCourse()" id="saveCourseBtn">
+                <span>Save Course</span>
+            </button>
         </div>
     </div>
 
@@ -631,6 +821,7 @@
                         <li><a href="#" onclick="showPage('blog'); return false;">Blog</a></li>
                         <li><a href="#" onclick="showPage('tools'); return false;">Tools</a></li>
                         <li><a href="#" onclick="showPage('academy'); return false;">Academy</a></li>
+                        <li id="adminNavItem" style="display: none;"><a href="#" onclick="showPage('admin'); return false;">Admin</a></li>
                     </ul>
                 </nav>
                 <div class="auth-buttons" id="authButtons">
@@ -694,31 +885,8 @@
             <h1>Forex Trading Blog</h1>
             <p>Educational content and market insights for traders of all levels.</p>
             
-            <div class="blog-posts">
-                <div class="blog-card">
-                    <img src="https://via.placeholder.com/400x200?text=Forex+Basics" alt="Forex Basics">
-                    <div class="blog-content">
-                        <h3>Understanding PIPs and Lots</h3>
-                        <p>Learn the fundamentals of Forex measurements and how to calculate position sizes.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </div>
-                </div>
-                <div class="blog-card">
-                    <img src="https://via.placeholder.com/400x200?text=Risk+Management" alt="Risk Management">
-                    <div class="blog-content">
-                        <h3>Risk Management Strategies</h3>
-                        <p>Protect your capital with these essential risk management techniques.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </div>
-                </div>
-                <div class="blog-card">
-                    <img src="https://via.placeholder.com/400x200?text=Market+Analysis" alt="Market Analysis">
-                    <div class="blog-content">
-                        <h3>Technical Analysis Basics</h3>
-                        <p>Introduction to reading charts and identifying trading opportunities.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </div>
-                </div>
+            <div class="blog-posts" id="blogPostsContainer">
+                <!-- Blog posts will be loaded here -->
             </div>
         </section>
 
@@ -867,24 +1035,8 @@
                     </a>
                 </div>
                 
-                <div class="features">
-                    <div class="feature-card">
-                        <h3><i class="fas fa-play-circle"></i> Forex Basics (Free)</h3>
-                        <p>Introduction to currency trading, terminology, and market mechanics.</p>
-                        <button class="btn btn-outline">Access Course</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3><i class="fas fa-shield-alt"></i> Risk Management (Free)</h3>
-                        <p>Learn how to protect your capital with proper position sizing.</p>
-                        <button class="btn btn-outline">Access Course</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3><i class="fas fa-chart-line"></i> Premium: Advanced Strategies</h3>
-                        <p>Unlock complex trading strategies used by professional traders.</p>
-                        <a href="https://flutterwave.com/pay/kp9tpqjve6cj" class="btn btn-primary" target="_blank">
-                            Upgrade to Access
-                        </a>
-                    </div>
+                <div class="features" id="coursesContainer">
+                    <!-- Courses will be loaded here -->
                 </div>
             </div>
             
@@ -892,27 +1044,8 @@
                 <h1>Premium Academy</h1>
                 <p>Welcome to our premium educational content.</p>
                 
-                <div class="features">
-                    <div class="feature-card">
-                        <h3><i class="fas fa-play-circle"></i> Forex Basics</h3>
-                        <p>Introduction to currency trading, terminology, and market mechanics.</p>
-                        <button class="btn btn-primary">Continue Course</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3><i class="fas fa-shield-alt"></i> Risk Management</h3>
-                        <p>Learn how to protect your capital with proper position sizing.</p>
-                        <button class="btn btn-primary">Continue Course</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3><i class="fas fa-chart-line"></i> Advanced Strategies</h3>
-                        <p>Complex trading strategies used by professional traders.</p>
-                        <button class="btn btn-primary">Continue Course</button>
-                    </div>
-                    <div class="feature-card">
-                        <h3><i class="fas fa-briefcase"></i> Online Business Mastery</h3>
-                        <p>Build a sustainable online business around trading.</p>
-                        <button class="btn btn-primary">Continue Course</button>
-                    </div>
+                <div class="features" id="premiumCoursesContainer">
+                    <!-- Premium courses will be loaded here -->
                 </div>
             </div>
         </section>
@@ -937,17 +1070,47 @@
                         <div class="admin-control">
                             <h3>Blog Posts</h3>
                             <p>Create and manage blog content</p>
-                            <button class="btn btn-outline">Manage Posts</button>
+                            <button class="btn btn-outline" onclick="showBlogManager()">Manage Posts</button>
                         </div>
                         <div class="admin-control">
                             <h3>Courses</h3>
                             <p>Manage academy courses</p>
-                            <button class="btn btn-outline">Manage Courses</button>
+                            <button class="btn btn-outline" onclick="showCourseManager()">Manage Courses</button>
                         </div>
                         <div class="admin-control">
                             <h3>User Management</h3>
                             <p>View and manage users</p>
                             <button class="btn btn-outline">Manage Users</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Manager -->
+                <div id="blogManager" style="display: none;">
+                    <div class="admin-panel">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h2>Blog Management</h2>
+                            <button class="btn btn-primary" onclick="openBlogEditor()">
+                                <i class="fas fa-plus"></i> New Blog Post
+                            </button>
+                        </div>
+                        <div class="content-list" id="blogList">
+                            <!-- Blog posts will be listed here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Manager -->
+                <div id="courseManager" style="display: none;">
+                    <div class="admin-panel">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h2>Course Management</h2>
+                            <button class="btn btn-primary" onclick="openCourseEditor()">
+                                <i class="fas fa-plus"></i> New Course
+                            </button>
+                        </div>
+                        <div class="content-list" id="courseList">
+                            <!-- Courses will be listed here -->
                         </div>
                     </div>
                 </div>
@@ -1067,12 +1230,15 @@
   appId: "1:847322653605:web:d2a7370eb28b0c2c903e4c",
   measurementId: "G-0JZX0NGRFX"
 };
-        
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
         const functions = firebase.functions();
+        
+        // Current editing state
+        let currentEditingBlogId = null;
+        let currentEditingCourseId = null;
         
         // Utility functions
         function showToast(message, type = 'info') {
@@ -1101,6 +1267,15 @@
         
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
+            
+            // Reset editing state if closing editors
+            if (modalId === 'blogEditorModal') {
+                currentEditingBlogId = null;
+                resetBlogForm();
+            } else if (modalId === 'courseEditorModal') {
+                currentEditingCourseId = null;
+                resetCourseForm();
+            }
         }
         
         function setLoading(button, isLoading) {
@@ -1117,6 +1292,8 @@
                 else if (button === 'riskCalculateBtn') btn.querySelector('span').textContent = 'Calculate';
                 else if (button === 'saveTradeBtn') btn.querySelector('span').textContent = 'Save Trade';
                 else if (button === 'resetPasswordBtn') btn.querySelector('span').textContent = 'Send Reset Link';
+                else if (button === 'saveBlogBtn') btn.querySelector('span').textContent = 'Publish Blog Post';
+                else if (button === 'saveCourseBtn') btn.querySelector('span').textContent = 'Save Course';
             }
         }
         
@@ -1147,6 +1324,52 @@
             }
         }
         
+        // Text editor functions
+        function formatText(format, textareaId = 'blogContent') {
+            const textarea = document.getElementById(textareaId);
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            let formattedText = '';
+            
+            switch(format) {
+                case 'bold':
+                    formattedText = `**${selectedText}**`;
+                    break;
+                case 'italic':
+                    formattedText = `*${selectedText}*`;
+                    break;
+                case 'underline':
+                    formattedText = `__${selectedText}__`;
+                    break;
+            }
+            
+            textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.focus();
+            textarea.setSelectionRange(start + formattedText.length, start + formattedText.length);
+        }
+        
+        function insertHeading(textareaId = 'blogContent') {
+            const textarea = document.getElementById(textareaId);
+            const start = textarea.selectionStart;
+            
+            textarea.value = textarea.value.substring(0, start) + '\n## Heading\n' + textarea.value.substring(start);
+            textarea.focus();
+            textarea.setSelectionRange(start + 8, start + 15);
+        }
+        
+        function insertList(type, textareaId = 'blogContent') {
+            const textarea = document.getElementById(textareaId);
+            const start = textarea.selectionStart;
+            
+            const listText = type === 'ul' ? '\n- List item 1\n- List item 2\n- List item 3\n' : '\n1. List item 1\n2. List item 2\n3. List item 3\n';
+            
+            textarea.value = textarea.value.substring(0, start) + listText + textarea.value.substring(start);
+            textarea.focus();
+            textarea.setSelectionRange(start + 2, start + 12);
+        }
+        
         // Page navigation
         function showPage(pageId) {
             // Hide all pages
@@ -1164,7 +1387,18 @@
             document.querySelectorAll('nav a').forEach(link => {
                 link.classList.remove('active');
             });
-            document.querySelector(`nav a[onclick*="${pageId}"]`).classList.add('active');
+            
+            const activeLink = document.querySelector(`nav a[onclick*="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Load content for specific pages
+            if (pageId === 'blog') {
+                loadBlogPosts();
+            } else if (pageId === 'academy') {
+                loadCourses();
+            }
         }
         
         // Check authentication state
@@ -1186,12 +1420,6 @@
                 
                 // Check if user is admin
                 checkAdminStatus(user.uid);
-                
-                // Check if email is verified
-                if (!user.emailVerified) {
-                    document.getElementById('userEmail').textContent = user.email;
-                    showModal('verifyEmailModal');
-                }
                 
                 // Load user data
                 loadUserData(user.uid);
@@ -1317,20 +1545,13 @@
                     // Signed up
                     const user = userCredential.user;
                     
-                    // Send email verification
-                    user.sendEmailVerification()
-                        .then(() => {
-                            showToast('Verification email sent! Please check your inbox.', 'info');
-                        });
-                    
                     // Save user profile
                     return db.collection('users').doc(user.uid).set({
                         name: name,
                         email: email,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         premium: false,
-                        admin: false,
-                        emailVerified: false
+                        admin: false
                     });
                 })
                 .then(() => {
@@ -1393,20 +1614,6 @@
                 });
         }
         
-        // Send verification email
-        function sendVerificationEmail() {
-            const user = auth.currentUser;
-            if (!user) return;
-            
-            user.sendEmailVerification()
-                .then(() => {
-                    showToast('Verification email sent! Please check your inbox.', 'success');
-                })
-                .catch(error => {
-                    showToast('Error sending verification email: ' + error.message, 'error');
-                });
-        }
-        
         // Logout function
         function logout() {
             auth.signOut().then(() => {
@@ -1432,14 +1639,531 @@
                 .then(doc => {
                     if (doc.exists && doc.data().admin) {
                         // Show admin tab in navigation
-                        const adminTab = document.createElement('li');
-                        adminTab.innerHTML = '<a href="#" onclick="showPage(\'admin\'); return false;">Admin</a>';
-                        document.querySelector('nav ul').appendChild(adminTab);
+                        document.getElementById('adminNavItem').style.display = 'list-item';
                         
                         document.getElementById('adminLoginRequired').style.display = 'none';
                         document.getElementById('adminContent').style.display = 'block';
                     }
                 });
+        }
+        
+        // Load blog posts for public view
+        function loadBlogPosts() {
+            const blogContainer = document.getElementById('blogPostsContainer');
+            blogContainer.innerHTML = '<p>Loading blog posts...</p>';
+            
+            db.collection('blogPosts')
+                .where('published', '==', true)
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) {
+                        blogContainer.innerHTML = '<p>No blog posts available yet.</p>';
+                        return;
+                    }
+                    
+                    blogContainer.innerHTML = '';
+                    
+                    querySnapshot.forEach(doc => {
+                        const post = doc.data();
+                        const postDate = post.createdAt ? new Date(post.createdAt.toDate()).toLocaleDateString() : 'Unknown date';
+                        
+                        const blogCard = document.createElement('div');
+                        blogCard.className = 'blog-card';
+                        blogCard.innerHTML = `
+                            <img src="${post.image || 'https://via.placeholder.com/400x200?text=Tradeflow+Blog'}" alt="${post.title}">
+                            <div class="blog-content">
+                                <h3>${post.title}</h3>
+                                <div class="blog-meta">${postDate} | ${post.category || 'Uncategorized'}</div>
+                                <p>${post.summary || 'No summary available'}</p>
+                                <a href="#" class="read-more" onclick="viewBlogPost('${doc.id}')">Read More</a>
+                            </div>
+                        `;
+                        
+                        blogContainer.appendChild(blogCard);
+                    });
+                })
+                .catch(error => {
+                    blogContainer.innerHTML = '<p>Error loading blog posts. Please try again later.</p>';
+                    console.error('Error loading blog posts:', error);
+                });
+        }
+        
+        // View individual blog post
+        function viewBlogPost(postId) {
+            // This would typically open a modal or navigate to a dedicated post page
+            db.collection('blogPosts').doc(postId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const post = doc.data();
+                        alert(`Blog Post: ${post.title}\n\n${post.content}`);
+                    } else {
+                        showToast('Blog post not found', 'error');
+                    }
+                })
+                .catch(error => {
+                    showToast('Error loading blog post', 'error');
+                    console.error('Error loading blog post:', error);
+                });
+        }
+        
+        // Load courses for academy
+        function loadCourses() {
+            const coursesContainer = document.getElementById('coursesContainer');
+            const premiumContainer = document.getElementById('premiumCoursesContainer');
+            
+            coursesContainer.innerHTML = '<p>Loading courses...</p>';
+            premiumContainer.innerHTML = '<p>Loading premium courses...</p>';
+            
+            // Load free courses
+            db.collection('courses')
+                .where('published', '==', true)
+                .where('premium', '==', false)
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) {
+                        coursesContainer.innerHTML = '<p>No free courses available yet.</p>';
+                    } else {
+                        coursesContainer.innerHTML = '';
+                        
+                        querySnapshot.forEach(doc => {
+                            const course = doc.data();
+                            const courseCard = createCourseCard(course, doc.id, false);
+                            coursesContainer.appendChild(courseCard);
+                        });
+                    }
+                })
+                .catch(error => {
+                    coursesContainer.innerHTML = '<p>Error loading courses. Please try again later.</p>';
+                    console.error('Error loading courses:', error);
+                });
+            
+            // Load premium courses
+            db.collection('courses')
+                .where('published', '==', true)
+                .where('premium', '==', true)
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) {
+                        premiumContainer.innerHTML = '<p>No premium courses available yet.</p>';
+                    } else {
+                        premiumContainer.innerHTML = '';
+                        
+                        querySnapshot.forEach(doc => {
+                            const course = doc.data();
+                            const courseCard = createCourseCard(course, doc.id, true);
+                            premiumContainer.appendChild(courseCard);
+                        });
+                    }
+                })
+                .catch(error => {
+                    premiumContainer.innerHTML = '<p>Error loading premium courses. Please try again later.</p>';
+                    console.error('Error loading premium courses:', error);
+                });
+        }
+        
+        // Create course card HTML
+        function createCourseCard(course, courseId, isPremium) {
+            const card = document.createElement('div');
+            card.className = 'feature-card';
+            
+            card.innerHTML = `
+                <h3><i class="fas ${isPremium ? 'fa-crown' : 'fa-play-circle'}"></i> ${course.title}</h3>
+                <p>${course.description || 'No description available'}</p>
+                <p><strong>Level:</strong> ${course.level || 'Not specified'}</p>
+                <p><strong>Category:</strong> ${course.category || 'Uncategorized'}</p>
+                ${isPremium ? 
+                    `<a href="https://flutterwave.com/pay/kp9tpqjve6cj" class="btn btn-primary" target="_blank">
+                        Upgrade to Access
+                    </a>` : 
+                    `<button class="btn btn-outline">Access Course</button>`
+                }
+            `;
+            
+            return card;
+        }
+        
+        // Show blog manager in admin panel
+        function showBlogManager() {
+            document.getElementById('blogManager').style.display = 'block';
+            document.getElementById('courseManager').style.display = 'none';
+            loadBlogList();
+        }
+        
+        // Show course manager in admin panel
+        function showCourseManager() {
+            document.getElementById('blogManager').style.display = 'none';
+            document.getElementById('courseManager').style.display = 'block';
+            loadCourseList();
+        }
+        
+        // Load blog posts for admin management
+        function loadBlogList() {
+            const blogList = document.getElementById('blogList');
+            blogList.innerHTML = '<p>Loading blog posts...</p>';
+            
+            db.collection('blogPosts')
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) {
+                        blogList.innerHTML = '<p>No blog posts found. Create your first one!</p>';
+                        return;
+                    }
+                    
+                    blogList.innerHTML = '';
+                    
+                    querySnapshot.forEach(doc => {
+                        const post = doc.data();
+                        const postDate = post.createdAt ? new Date(post.createdAt.toDate()).toLocaleDateString() : 'Unknown date';
+                        
+                        const contentItem = document.createElement('div');
+                        contentItem.className = 'content-item';
+                        contentItem.innerHTML = `
+                            <div class="content-item-info">
+                                <h3>${post.title}</h3>
+                                <div class="content-item-meta">
+                                    ${postDate} | ${post.category || 'Uncategorized'} | 
+                                    Status: ${post.published ? 'Published' : 'Draft'}
+                                </div>
+                            </div>
+                            <div class="content-item-actions">
+                                <button class="btn btn-outline" onclick="editBlogPost('${doc.id}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteBlogPost('${doc.id}')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        `;
+                        
+                        blogList.appendChild(contentItem);
+                    });
+                })
+                .catch(error => {
+                    blogList.innerHTML = '<p>Error loading blog posts. Please try again later.</p>';
+                    console.error('Error loading blog posts:', error);
+                });
+        }
+        
+        // Load courses for admin management
+        function loadCourseList() {
+            const courseList = document.getElementById('courseList');
+            courseList.innerHTML = '<p>Loading courses...</p>';
+            
+            db.collection('courses')
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) {
+                        courseList.innerHTML = '<p>No courses found. Create your first one!</p>';
+                        return;
+                    }
+                    
+                    courseList.innerHTML = '';
+                    
+                    querySnapshot.forEach(doc => {
+                        const course = doc.data();
+                        const courseDate = course.createdAt ? new Date(course.createdAt.toDate()).toLocaleDateString() : 'Unknown date';
+                        
+                        const contentItem = document.createElement('div');
+                        contentItem.className = 'content-item';
+                        contentItem.innerHTML = `
+                            <div class="content-item-info">
+                                <h3>${course.title} ${course.premium ? '(Premium)' : '(Free)'}</h3>
+                                <div class="content-item-meta">
+                                    ${courseDate} | ${course.category || 'Uncategorized'} | 
+                                    Level: ${course.level || 'Not specified'} | 
+                                    Status: ${course.published ? 'Published' : 'Draft'}
+                                </div>
+                            </div>
+                            <div class="content-item-actions">
+                                <button class="btn btn-outline" onclick="editCourse('${doc.id}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteCourse('${doc.id}')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        `;
+                        
+                        courseList.appendChild(contentItem);
+                    });
+                })
+                .catch(error => {
+                    courseList.innerHTML = '<p>Error loading courses. Please try again later.</p>';
+                    console.error('Error loading courses:', error);
+                });
+        }
+        
+        // Open blog editor for new post
+        function openBlogEditor() {
+            currentEditingBlogId = null;
+            document.getElementById('blogEditorTitle').textContent = 'Add New Blog Post';
+            resetBlogForm();
+            showModal('blogEditorModal');
+        }
+        
+        // Reset blog form
+        function resetBlogForm() {
+            document.getElementById('blogTitle').value = '';
+            document.getElementById('blogSummary').value = '';
+            document.getElementById('blogContent').value = '';
+            document.getElementById('blogImage').value = '';
+            document.getElementById('blogCategory').value = 'Forex Basics';
+            clearErrors('blog');
+        }
+        
+        // Edit existing blog post
+        function editBlogPost(blogId) {
+            currentEditingBlogId = blogId;
+            
+            db.collection('blogPosts').doc(blogId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const post = doc.data();
+                        
+                        document.getElementById('blogEditorTitle').textContent = 'Edit Blog Post';
+                        document.getElementById('blogTitle').value = post.title || '';
+                        document.getElementById('blogSummary').value = post.summary || '';
+                        document.getElementById('blogContent').value = post.content || '';
+                        document.getElementById('blogImage').value = post.image || '';
+                        document.getElementById('blogCategory').value = post.category || 'Forex Basics';
+                        
+                        showModal('blogEditorModal');
+                    } else {
+                        showToast('Blog post not found', 'error');
+                    }
+                })
+                .catch(error => {
+                    showToast('Error loading blog post', 'error');
+                    console.error('Error loading blog post:', error);
+                });
+        }
+        
+        // Save blog post
+        function saveBlogPost() {
+            const title = document.getElementById('blogTitle').value;
+            const summary = document.getElementById('blogSummary').value;
+            const content = document.getElementById('blogContent').value;
+            const image = document.getElementById('blogImage').value;
+            const category = document.getElementById('blogCategory').value;
+            
+            // Clear previous errors
+            clearErrors('blog');
+            
+            let isValid = true;
+            
+            // Validate form
+            if (!title) {
+                setError('blogTitleGroup', 'Title is required');
+                isValid = false;
+            }
+            
+            if (!content) {
+                setError('blogContentGroup', 'Content is required');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            setLoading('saveBlogBtn', true);
+            
+            const blogData = {
+                title: title,
+                summary: summary,
+                content: content,
+                image: image,
+                category: category,
+                published: true,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            // Add createdAt for new posts
+            if (!currentEditingBlogId) {
+                blogData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            }
+            
+            let savePromise;
+            
+            if (currentEditingBlogId) {
+                // Update existing post
+                savePromise = db.collection('blogPosts').doc(currentEditingBlogId).update(blogData);
+            } else {
+                // Create new post
+                savePromise = db.collection('blogPosts').add(blogData);
+            }
+            
+            savePromise
+                .then(() => {
+                    showToast(`Blog post ${currentEditingBlogId ? 'updated' : 'published'} successfully!`, 'success');
+                    closeModal('blogEditorModal');
+                    loadBlogList();
+                    loadBlogPosts(); // Refresh public view
+                })
+                .catch(error => {
+                    showToast(`Error ${currentEditingBlogId ? 'updating' : 'saving'} blog post: ${error.message}`, 'error');
+                    console.error('Error saving blog post:', error);
+                })
+                .finally(() => {
+                    setLoading('saveBlogBtn', false);
+                });
+        }
+        
+        // Delete blog post
+        function deleteBlogPost(blogId) {
+            if (confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) {
+                db.collection('blogPosts').doc(blogId).delete()
+                    .then(() => {
+                        showToast('Blog post deleted successfully', 'success');
+                        loadBlogList();
+                        loadBlogPosts(); // Refresh public view
+                    })
+                    .catch(error => {
+                        showToast('Error deleting blog post: ' + error.message, 'error');
+                        console.error('Error deleting blog post:', error);
+                    });
+            }
+        }
+        
+        // Open course editor for new course
+        function openCourseEditor() {
+            currentEditingCourseId = null;
+            document.getElementById('courseEditorTitle').textContent = 'Add New Course';
+            resetCourseForm();
+            showModal('courseEditorModal');
+        }
+        
+        // Reset course form
+        function resetCourseForm() {
+            document.getElementById('courseTitle').value = '';
+            document.getElementById('courseDescription').value = '';
+            document.getElementById('courseContent').value = '';
+            document.getElementById('courseImage').value = '';
+            document.getElementById('courseLevel').value = 'Beginner';
+            document.getElementById('courseCategory').value = 'Forex Trading';
+            document.getElementById('coursePremium').value = 'free';
+            clearErrors('course');
+        }
+        
+        // Edit existing course
+        function editCourse(courseId) {
+            currentEditingCourseId = courseId;
+            
+            db.collection('courses').doc(courseId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const course = doc.data();
+                        
+                        document.getElementById('courseEditorTitle').textContent = 'Edit Course';
+                        document.getElementById('courseTitle').value = course.title || '';
+                        document.getElementById('courseDescription').value = course.description || '';
+                        document.getElementById('courseContent').value = course.content || '';
+                        document.getElementById('courseImage').value = course.image || '';
+                        document.getElementById('courseLevel').value = course.level || 'Beginner';
+                        document.getElementById('courseCategory').value = course.category || 'Forex Trading';
+                        document.getElementById('coursePremium').value = course.premium ? 'premium' : 'free';
+                        
+                        showModal('courseEditorModal');
+                    } else {
+                        showToast('Course not found', 'error');
+                    }
+                })
+                .catch(error => {
+                    showToast('Error loading course', 'error');
+                    console.error('Error loading course:', error);
+                });
+        }
+        
+        // Save course
+        function saveCourse() {
+            const title = document.getElementById('courseTitle').value;
+            const description = document.getElementById('courseDescription').value;
+            const content = document.getElementById('courseContent').value;
+            const image = document.getElementById('courseImage').value;
+            const level = document.getElementById('courseLevel').value;
+            const category = document.getElementById('courseCategory').value;
+            const premium = document.getElementById('coursePremium').value === 'premium';
+            
+            // Clear previous errors
+            clearErrors('course');
+            
+            let isValid = true;
+            
+            // Validate form
+            if (!title) {
+                setError('courseTitleGroup', 'Title is required');
+                isValid = false;
+            }
+            
+            if (!content) {
+                setError('courseContentGroup', 'Content is required');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            setLoading('saveCourseBtn', true);
+            
+            const courseData = {
+                title: title,
+                description: description,
+                content: content,
+                image: image,
+                level: level,
+                category: category,
+                premium: premium,
+                published: true,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            // Add createdAt for new courses
+            if (!currentEditingCourseId) {
+                courseData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            }
+            
+            let savePromise;
+            
+            if (currentEditingCourseId) {
+                // Update existing course
+                savePromise = db.collection('courses').doc(currentEditingCourseId).update(courseData);
+            } else {
+                // Create new course
+                savePromise = db.collection('courses').add(courseData);
+            }
+            
+            savePromise
+                .then(() => {
+                    showToast(`Course ${currentEditingCourseId ? 'updated' : 'created'} successfully!`, 'success');
+                    closeModal('courseEditorModal');
+                    loadCourseList();
+                    loadCourses(); // Refresh public view
+                })
+                .catch(error => {
+                    showToast(`Error ${currentEditingCourseId ? 'updating' : 'saving'} course: ${error.message}`, 'error');
+                    console.error('Error saving course:', error);
+                })
+                .finally(() => {
+                    setLoading('saveCourseBtn', false);
+                });
+        }
+        
+        // Delete course
+        function deleteCourse(courseId) {
+            if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
+                db.collection('courses').doc(courseId).delete()
+                    .then(() => {
+                        showToast('Course deleted successfully', 'success');
+                        loadCourseList();
+                        loadCourses(); // Refresh public view
+                    })
+                    .catch(error => {
+                        showToast('Error deleting course: ' + error.message, 'error');
+                        console.error('Error deleting course:', error);
+                    });
+            }
         }
         
         // PIP Calculator
