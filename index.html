@@ -3,10 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tradeflow HQ - Content Management</title>
+    <title>TradeFlow Strategy | Lifetime Access</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Basic reset and global styles */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #0f172a;
+            --accent: #22c55e;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --dark: #1e293b;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -14,2381 +23,585 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        :root {
-            --primary: #2563eb;
-            --secondary: #0f172a;
-            --accent: #f59e0b;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --gray: #64748b;
-        }
-        
         body {
-            background-color: #f1f5f9;
+            background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
         }
         
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
-        /* Header styles */
         header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(to right, var(--secondary), var(--primary-dark));
+            color: white;
+            padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
-        .header-content {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
         }
         
         .logo {
-            font-size: 1.5rem;
+            font-size: 24px;
             font-weight: 700;
-            color: var(--primary);
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .nav-links a {
+            color: white;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .tagline {
-            font-size: 0.9rem;
-            color: var(--gray);
-            font-weight: 400;
-            margin-left: 1rem;
-            padding-left: 1rem;
-            border-left: 1px solid #cbd5e1;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        
-        nav a {
-            text-decoration: none;
-            color: var(--dark);
+            margin-left: 20px;
             font-weight: 500;
             transition: color 0.3s;
         }
         
-        nav a:hover, nav a.active {
-            color: var(--primary);
+        .nav-links a:hover {
+            color: var(--accent);
         }
         
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-        }
-        
-        .btn-success:hover {
-            background-color: #0d9660;
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background-color: #dc2626;
-        }
-        
-        /* Main content styles */
-        .page {
-            display: none;
-            padding: 2rem 0;
-            min-height: calc(100vh - 200px);
-        }
-        
-        .page.active {
-            display: block;
-        }
-        
-        /* Hero section */
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 4rem 0;
-            border-radius: 0.5rem;
-            margin-bottom: 3rem;
+            padding: 80px 0;
             text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232563eb"/><path d="M0 0L100 100" stroke="%231d4ed8" stroke-width="2"/><path d="M100 0L0 100" stroke="%231d4ed8" stroke-width="2"/></svg>');
+            background-size: cover;
+            color: white;
         }
         
         .hero h1 {
             font-size: 3rem;
-            margin-bottom: 1rem;
+            margin-bottom: 20px;
         }
         
         .hero p {
-            font-size: 1.25rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
         }
         
-        /* Features grid */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        .btn:hover {
+            background-color: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--secondary);
+        }
+        
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
+            gap: 30px;
+            margin-top: 50px;
         }
         
         .feature-card {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            text-align: center;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
         }
         
         .feature-card h3 {
             color: var(--primary);
-            margin-bottom: 1rem;
+            margin-bottom: 15px;
         }
         
-        /* Tool styles */
-        .tool {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-        }
-        
-        .tool h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.375rem;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        .form-group.error input,
-        .form-group.error select,
-        .form-group.error textarea {
-            border-color: var(--danger);
-        }
-        
-        .error-message {
-            color: var(--danger);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        
-        .form-group.error .error-message {
-            display: block;
-        }
-        
-        .result {
-            background-color: #f1f5f9;
-            padding: 1rem;
-            border-radius: 0.375rem;
-            margin-top: 1.5rem;
-            display: none;
-        }
-        
-        .result.active {
-            display: block;
-        }
-        
-        /* Blog styles */
-        .blog-posts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .blog-card {
-            background-color: white;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-        }
-        
-        .blog-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .blog-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .blog-content {
-            padding: 1.5rem;
-        }
-        
-        .blog-content h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .blog-content .blog-meta {
-            color: var(--gray);
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-        }
-        
-        .blog-content p {
-            color: #64748b;
-            margin-bottom: 1rem;
-        }
-        
-        .read-more {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        /* Footer styles */
-        footer {
+        .pricing {
             background-color: var(--secondary);
             color: white;
-            padding: 3rem 0;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-        }
-        
-        .footer-section ul li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .footer-section a {
-            color: #cbd5e1;
-            text-decoration: none;
-        }
-        
-        .footer-section a:hover {
-            color: white;
-        }
-        
-        .copyright {
             text-align: center;
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #334155;
         }
         
-        /* Premium features */
-        .premium-banner {
-            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+        .pricing h2 {
             color: white;
-            text-align: center;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            margin-bottom: 2rem;
         }
         
-        /* Loading spinner */
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            display: inline-block;
+        .price-card {
+            background: linear-gradient(to bottom right, var(--primary), var(--primary-dark));
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .btn .spinner {
-            margin-right: 0.5rem;
-        }
-        
-        /* Toast notifications */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .toast {
-            padding: 1rem 1.5rem;
-            border-radius: 0.375rem;
+        .price {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
             color: white;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transform: translateX(100%);
-            opacity: 0;
-            transition: transform 0.3s, opacity 0.3s;
         }
         
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        
-        .toast.success {
-            background-color: var(--success);
-        }
-        
-        .toast.error {
-            background-color: var(--danger);
-        }
-        
-        .toast.info {
-            background-color: var(--primary);
-        }
-        
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            transform: translateY(20px);
-            transition: transform 0.3s;
-        }
-        
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
+        .price span {
             font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
+            vertical-align: super;
         }
         
-        /* Payment section */
-        .payment-section {
-            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            margin: 2rem 0;
-            text-align: center;
+        .price-note {
+            font-style: italic;
+            margin-bottom: 30px;
+            opacity: 0.9;
         }
         
         .payment-options {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .payment-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: white;
-            color: #10b981;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.375rem;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .payment-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Admin panel */
-        .admin-panel {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-        }
-        
-        .admin-controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .admin-control {
-            background-color: #f8fafc;
-            padding: 1rem;
-            border-radius: 0.375rem;
-            border: 1px solid #e2e8f0;
-            text-align: center;
-        }
-        
-        .admin-control h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        /* Content management */
-        .content-list {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
-        }
-        
-        .content-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .content-item:last-child {
-            border-bottom: none;
-        }
-        
-        .content-item-info h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .content-item-meta {
-            color: var(--gray);
-            font-size: 0.875rem;
-        }
-        
-        .content-item-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        /* Rich text editor */
-        .editor-toolbar {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
+            gap: 15px;
+            margin-top: 20px;
             flex-wrap: wrap;
         }
         
-        .editor-button {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.25rem;
-            padding: 0.5rem;
-            cursor: pointer;
+        .payment-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--dark);
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
         }
         
-        .editor-button:hover {
-            background: #e2e8f0;
+        .payment-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
-        /* Responsive design */
+        .guarantee {
+            background-color: var(--light);
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .guarantee-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonials {
+            background-color: #f1f5f9;
+        }
+        
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .contact {
+            background-color: var(--secondary);
+            color: white;
+            text-align: center;
+        }
+        
+        .contact h2 {
+            color: white;
+        }
+        
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .contact-details {
+            margin-top: 15px;
+        }
+        
+        .contact-details a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .contact-details a:hover {
+            color: var(--accent);
+        }
+        
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .tagline {
-                margin-left: 0;
-                padding-left: 0;
-                border-left: none;
-                text-align: center;
-            }
-            
-            nav ul {
-                gap: 1rem;
-            }
-            
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
-            .hero p {
-                font-size: 1rem;
+            .nav-links {
+                display: none;
             }
             
-            .auth-buttons {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .auth-buttons .btn {
-                width: 100%;
-                justify-content: center;
+            .price {
+                font-size: 3rem;
             }
             
             .payment-options {
                 flex-direction: column;
                 align-items: center;
             }
-            
-            .content-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .content-item-actions {
-                align-self: flex-end;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Toast notifications container -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Password reset modal -->
-    <div class="modal-overlay" id="resetPasswordModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2>Reset Password</h2>
-                <button class="modal-close" onclick="closeModal('resetPasswordModal')">&times;</button>
-            </div>
-            <div class="form-group" id="resetEmailGroup">
-                <label for="resetEmail">Email Address</label>
-                <input type="email" id="resetEmail" placeholder="your@email.com">
-                <div class="error-message" id="resetEmailError"></div>
-            </div>
-            <button class="btn btn-primary" onclick="sendPasswordReset()" id="resetPasswordBtn">
-                <span>Send Reset Link</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Blog editor modal -->
-    <div class="modal-overlay" id="blogEditorModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 id="blogEditorTitle">Add New Blog Post</h2>
-                <button class="modal-close" onclick="closeModal('blogEditorModal')">&times;</button>
-            </div>
-            <div class="form-group" id="blogTitleGroup">
-                <label for="blogTitle">Title</label>
-                <input type="text" id="blogTitle" placeholder="Enter blog title">
-                <div class="error-message" id="blogTitleError"></div>
-            </div>
-            <div class="form-group" id="blogSummaryGroup">
-                <label for="blogSummary">Summary</label>
-                <textarea id="blogSummary" placeholder="Brief summary of the blog post" rows="3"></textarea>
-                <div class="error-message" id="blogSummaryError"></div>
-            </div>
-            <div class="form-group" id="blogContentGroup">
-                <label for="blogContent">Content</label>
-                <div class="editor-toolbar">
-                    <button class="editor-button" onclick="formatText('bold')"><i class="fas fa-bold"></i></button>
-                    <button class="editor-button" onclick="formatText('italic')"><i class="fas fa-italic"></i></button>
-                    <button class="editor-button" onclick="formatText('underline')"><i class="fas fa-underline"></i></button>
-                    <button class="editor-button" onclick="insertHeading()"><i class="fas fa-heading"></i></button>
-                    <button class="editor-button" onclick="insertList('ul')"><i class="fas fa-list-ul"></i></button>
-                    <button class="editor-button" onclick="insertList('ol')"><i class="fas fa-list-ol"></i></button>
-                </div>
-                <textarea id="blogContent" placeholder="Write your blog content here" rows="10"></textarea>
-                <div class="error-message" id="blogContentError"></div>
-            </div>
-            <div class="form-group" id="blogImageGroup">
-                <label for="blogImage">Image URL</label>
-                <input type="text" id="blogImage" placeholder="https://example.com/image.jpg">
-                <div class="error-message" id="blogImageError"></div>
-            </div>
-            <div class="form-group" id="blogCategoryGroup">
-                <label for="blogCategory">Category</label>
-                <select id="blogCategory">
-                    <option value="Forex Basics">Forex Basics</option>
-                    <option value="Trading Strategies">Trading Strategies</option>
-                    <option value="Risk Management">Risk Management</option>
-                    <option value="Market Analysis">Market Analysis</option>
-                    <option value="Psychology">Psychology</option>
-                </select>
-                <div class="error-message" id="blogCategoryError"></div>
-            </div>
-            <button class="btn btn-primary" onclick="saveBlogPost()" id="saveBlogBtn">
-                <span>Publish Blog Post</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Course editor modal -->
-    <div class="modal-overlay" id="courseEditorModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 id="courseEditorTitle">Add New Course</h2>
-                <button class="modal-close" onclick="closeModal('courseEditorModal')">&times;</button>
-            </div>
-            <div class="form-group" id="courseTitleGroup">
-                <label for="courseTitle">Title</label>
-                <input type="text" id="courseTitle" placeholder="Enter course title">
-                <div class="error-message" id="courseTitleError"></div>
-            </div>
-            <div class="form-group" id="courseDescriptionGroup">
-                <label for="courseDescription">Description</label>
-                <textarea id="courseDescription" placeholder="Describe the course" rows="3"></textarea>
-                <div class="error-message" id="courseDescriptionError"></div>
-            </div>
-            <div class="form-group" id="courseContentGroup">
-                <label for="courseContent">Course Content</label>
-                <div class="editor-toolbar">
-                    <button class="editor-button" onclick="formatText('bold', 'courseContent')"><i class="fas fa-bold"></i></button>
-                    <button class="editor-button" onclick="formatText('italic', 'courseContent')"><i class="fas fa-italic"></i></button>
-                    <button class="editor-button" onclick="formatText('underline', 'courseContent')"><i class="fas fa-underline"></i></button>
-                    <button class="editor-button" onclick="insertHeading('courseContent')"><i class="fas fa-heading"></i></button>
-                </div>
-                <textarea id="courseContent" placeholder="Enter the course content" rows="10"></textarea>
-                <div class="error-message" id="courseContentError"></div>
-            </div>
-            <div class="form-group" id="courseImageGroup">
-                <label for="courseImage">Image URL</label>
-                <input type="text" id="courseImage" placeholder="https://example.com/image.jpg">
-                <div class="error-message" id="courseImageError"></div>
-            </div>
-            <div class="form-group" id="courseLevelGroup">
-                <label for="courseLevel">Level</label>
-                <select id="courseLevel">
-                    <option value="Beginner">Beginner</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Advanced">Advanced</option>
-                </select>
-                <div class="error-message" id="courseLevelError"></div>
-            </div>
-            <div class="form-group" id="courseCategoryGroup">
-                <label for="courseCategory">Category</label>
-                <select id="courseCategory">
-                    <option value="Forex Trading">Forex Trading</option>
-                    <option value="Online Business">Online Business</option>
-                    <option value="Investment Strategies">Investment Strategies</option>
-                    <option value="Market Analysis">Market Analysis</option>
-                </select>
-                <div class="error-message" id="courseCategoryError"></div>
-            </div>
-            <div class="form-group" id="coursePremiumGroup">
-                <label for="coursePremium">Course Type</label>
-                <select id="coursePremium">
-                    <option value="free">Free</option>
-                    <option value="premium">Premium</option>
-                </select>
-                <div class="error-message" id="coursePremiumError"></div>
-            </div>
-            <button class="btn btn-primary" onclick="saveCourse()" id="saveCourseBtn">
-                <span>Save Course</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Header with navigation -->
     <header>
         <div class="container">
-            <div class="header-content">
-                <div>
-                    <a href="#" class="logo" onclick="showPage('home'); return false;">
-                        <i class="fas fa-chart-line"></i>
-                        Tradeflow HQ
-                    </a>
-                    <span class="tagline">All in one hub for Forex Traders and Online Business Education</span>
+            <nav>
+                <div class="logo">Trade<span>Flow</span></div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#testimonials">Testimonials</a>
+                    <a href="#contact">Contact</a>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" onclick="showPage('home'); return false;">Home</a></li>
-                        <li><a href="#" onclick="showPage('blog'); return false;">Blog</a></li>
-                        <li><a href="#" onclick="showPage('tools'); return false;">Tools</a></li>
-                        <li><a href="#" onclick="showPage('academy'); return false;">Academy</a></li>
-                        <li id="adminNavItem" style="display: none;"><a href="#" onclick="showPage('admin'); return false;">Admin</a></li>
-                    </ul>
-                </nav>
-                <div class="auth-buttons" id="authButtons">
-                    <button class="btn btn-outline" onclick="showPage('login')">
-                        <i class="fas fa-sign-in-alt"></i>Login
-                    </button>
-                    <button class="btn btn-primary" onclick="showPage('register')">
-                        <i class="fas fa-user-plus"></i>Register
-                    </button>
-                </div>
-                <div id="userMenu" style="display: none;">
-                    <button class="btn btn-primary" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i>Logout
-                    </button>
-                </div>
-            </div>
+            </nav>
         </div>
     </header>
 
-    <!-- Main content sections -->
-    <main class="container">
-        <!-- Home Page -->
-        <section id="home" class="page active">
-            <div class="hero">
-                <h1>Master Forex Trading with Expert Tools</h1>
-                <p>Access free trading calculators, journal your trades, and unlock premium educational content to elevate your trading skills.</p>
-                <button class="btn btn-primary" onclick="showPage('register')">
-                    <i class="fas fa-rocket"></i>Get Started
-                </button>
-            </div>
-            
-            <h2>Why Choose Tradeflow HQ?</h2>
+    <section class="hero">
+        <div class="container">
+            <h1>Revolutionize Your Trading with TradeFlow Strategy</h1>
+            <p>A proven systematic approach to identify high-probability trade setups and maximize your profit potential</p>
+            <a href="#pricing" class="btn">Get Lifetime Access Now</a>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="container">
+            <h2>Why Choose TradeFlow Strategy?</h2>
             <div class="features">
                 <div class="feature-card">
-                    <h3><i class="fas fa-calculator"></i> Free Trading Tools</h3>
-                    <p>Calculate pip values, manage risk, and journal your trades with our professional-grade tools.</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Systematic Approach</h3>
+                    <p>Eliminate emotional trading with our clear, rules-based strategy that identifies high-probability setups in any market condition.</p>
                 </div>
                 <div class="feature-card">
-                    <h3><i class="fas fa-graduation-cap"></i> Premium Academy</h3>
-                    <p>Access in-depth courses on Forex trading, online business, and advanced strategies.</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Comprehensive Education</h3>
+                    <p>Get access to detailed video lessons, PDF guides, and real trade examples to master the strategy quickly.</p>
                 </div>
                 <div class="feature-card">
-                    <h3><i class="fas fa-book"></i> Expert Blog</h3>
-                    <p>Learn from professional traders with our regularly updated educational content.</p>
-                </div>
-            </div>
-
-            <div class="payment-section">
-                <h2>Upgrade to Premium Today!</h2>
-                <p>Get access to all our advanced courses, trading strategies, and personalized support.</p>
-                <div class="payment-options">
-                    <a href="https://flutterwave.com/pay/kp9tpqjve6cj" class="payment-button" target="_blank">
-                        <i class="fas fa-credit-card"></i> Upgrade with Flutterwave
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Blog Page -->
-        <section id="blog" class="page">
-            <h1>Forex Trading Blog</h1>
-            <p>Educational content and market insights for traders of all levels.</p>
-            
-            <div class="blog-posts" id="blogPostsContainer">
-                <!-- Blog posts will be loaded here -->
-            </div>
-        </section>
-
-        <!-- Tools Page (requires login) -->
-        <section id="tools" class="page">
-            <div id="toolsLoginRequired">
-                <h1>Trading Tools</h1>
-                <p>Please log in to access our free trading tools.</p>
-                <button class="btn btn-primary" onclick="showPage('login')">
-                    <i class="fas fa-sign-in-alt"></i>Login
-                </button>
-            </div>
-            
-            <div id="toolsContent" style="display: none;">
-                <h1>Professional Trading Tools</h1>
-                
-                <!-- PIP Calculator -->
-                <div class="tool">
-                    <h2><i class="fas fa-calculator"></i> PIP Calculator</h2>
-                    <div class="form-group" id="pipCurrencyPairGroup">
-                        <label for="currencyPair">Currency Pair</label>
-                        <select id="currencyPair">
-                            <option value="EUR/USD">EUR/USD</option>
-                            <option value="GBP/USD">GBP/USD</option>
-                            <option value="USD/JPY">USD/JPY</option>
-                            <option value="AUD/USD">AUD/USD</option>
-                            <option value="USD/CAD">USD/CAD</option>
-                        </select>
-                        <div class="error-message" id="currencyPairError"></div>
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
                     </div>
-                    <div class="form-group" id="pipTradeSizeGroup">
-                        <label for="tradeSize">Trade Size (Lots)</label>
-                        <input type="number" id="tradeSize" placeholder="1.0" step="0.01" min="0.01">
-                        <div class="error-message" id="tradeSizeError"></div>
+                    <h3>Lifetime Access</h3>
+                    <p>One-time payment for perpetual access to all current and future strategy updates without any recurring fees.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <button class="btn btn-primary" onclick="calculatePip()" id="pipCalculateBtn">
-                        <span>Calculate</span>
-                    </button>
-                    
-                    <div class="result" id="pipResult">
-                        <h3>Result</h3>
-                        <p id="pipValue"></p>
+                    <h3>Risk Management Framework</h3>
+                    <p>Built-in risk management rules to protect your capital and maximize returns while minimizing drawdowns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
                     </div>
+                    <h3>Market Agnostic</h3>
+                    <p>Apply the TradeFlow strategy to stocks, forex, cryptocurrencies, and commodities with consistent results.</p>
                 </div>
-                
-                <!-- Risk Calculator -->
-                <div class="tool">
-                    <h2><i class="fas fa-shield-alt"></i> Risk Calculator</h2>
-                    <div class="form-group" id="riskAccountSizeGroup">
-                        <label for="accountSize">Account Size (USD)</label>
-                        <input type="number" id="accountSize" placeholder="10000">
-                        <div class="error-message" id="accountSizeError"></div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div class="form-group" id="riskPercentageGroup">
-                        <label for="riskPercentage">Risk Percentage (%)</label>
-                        <input type="number" id="riskPercentage" placeholder="1" step="0.1" min="0.1" max="10">
-                        <div class="error-message" id="riskPercentageError"></div>
-                    </div>
-                    <div class="form-group" id="riskStopLossGroup">
-                        <label for="stopLoss">Stop Loss (PIPS)</label>
-                        <input type="number" id="stopLoss" placeholder="20" min="1">
-                        <div class="error-message" id="stopLossError"></div>
-                    </div>
-                    <button class="btn btn-primary" onclick="calculateRisk()" id="riskCalculateBtn">
-                        <span>Calculate</span>
-                    </button>
-                    
-                    <div class="result" id="riskResult">
-                        <h3>Result</h3>
-                        <p id="riskValue"></p>
-                    </div>
+                    <h3>Community Access</h3>
+                    <p>Join our exclusive community of traders to share ideas, get feedback, and accelerate your learning curve.</p>
                 </div>
-                
-                <!-- Trade Journal -->
-                <div class="tool">
-                    <h2><i class="fas fa-book"></i> Trade Journal</h2>
-                    <div class="form-group" id="journalDateGroup">
-                        <label for="tradeDate">Date</label>
-                        <input type="date" id="tradeDate">
-                        <div class="error-message" id="tradeDateError"></div>
-                    </div>
-                    <div class="form-group" id="journalSymbolGroup">
-                        <label for="tradeSymbol">Symbol</label>
-                        <input type="text" id="tradeSymbol" placeholder="EUR/USD">
-                        <div class="error-message" id="tradeSymbolError"></div>
-                    </div>
-                    <div class="form-group" id="journalTypeGroup">
-                        <label for="tradeType">Type</label>
-                        <select id="tradeType">
-                            <option value="buy">Buy</option>
-                            <option value="sell">Sell</option>
-                        </select>
-                        <div class="error-message" id="tradeTypeError"></div>
-                    </div>
-                    <div class="form-group" id="journalSizeGroup">
-                        <label for="tradeSizeJournal">Size (Lots)</label>
-                        <input type="number" id="tradeSizeJournal" placeholder="1.0" step="0.01" min="0.01">
-                        <div class="error-message" id="tradeSizeJournalError"></div>
-                    </div>
-                    <div class="form-group" id="journalEntryGroup">
-                        <label for="tradeEntry">Entry Price</label>
-                        <input type="number" id="tradeEntry" placeholder="1.1250" step="0.0001" min="0">
-                        <div class="error-message" id="tradeEntryError"></div>
-                    </div>
-                    <div class="form-group" id="journalExitGroup">
-                        <label for="tradeExit">Exit Price</label>
-                        <input type="number" id="tradeExit" placeholder="1.1300" step="0.0001" min="0">
-                        <div class="error-message" id="tradeExitError"></div>
-                    </div>
-                    <div class="form-group" id="journalNotesGroup">
-                        <label for="tradeNotes">Notes</label>
-                        <textarea id="tradeNotes" rows="3" placeholder="Trade rationale, observations, etc."></textarea>
-                        <div class="error-message" id="tradeNotesError"></div>
-                    </div>
-                    <button class="btn btn-primary" onclick="saveTrade()" id="saveTradeBtn">
-                        <span>Save Trade</span>
-                    </button>
-                    
-                    <div class="result" id="tradeResult">
-                        <h3>Saved Trades</h3>
-                        <div id="tradesList"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Academy Page (requires premium) -->
-        <section id="academy" class="page">
-            <div id="academyLoginRequired">
-                <h1>Premium Academy</h1>
-                <p>Please log in to access our premium educational content.</p>
-                <button class="btn btn-primary" onclick="showPage('login')">
-                    <i class="fas fa-sign-in-alt"></i>Login
-                </button>
-            </div>
-            
-            <div id="academyFreeContent" style="display: none;">
-                <h1>Trading Academy</h1>
-                <p>Upgrade to premium for full access to all courses.</p>
-                
-                <div class="premium-banner">
-                    <h2><i class="fas fa-crown"></i> Premium Features Unlocked</h2>
-                    <p>Get access to all courses, advanced strategies, and personalized feedback</p>
-                    <a href="https://flutterwave.com/pay/kp9tpqjve6cj" class="btn btn-primary" target="_blank">
-                        <i class="fas fa-credit-card"></i> Upgrade Now
-                    </a>
-                </div>
-                
-                <div class="features" id="coursesContainer">
-                    <!-- Courses will be loaded here -->
-                </div>
-            </div>
-            
-            <div id="academyPremiumContent" style="display: none;">
-                <h1>Premium Academy</h1>
-                <p>Welcome to our premium educational content.</p>
-                
-                <div class="features" id="premiumCoursesContainer">
-                    <!-- Premium courses will be loaded here -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Admin Page -->
-        <section id="admin" class="page">
-            <div id="adminLoginRequired">
-                <h1>Admin Panel</h1>
-                <p>Please log in with an admin account to access the admin panel.</p>
-                <button class="btn btn-primary" onclick="showPage('login')">
-                    <i class="fas fa-sign-in-alt"></i>Login
-                </button>
-            </div>
-            
-            <div id="adminContent" style="display: none;">
-                <h1>Admin Panel</h1>
-                <p>Manage your website content and users.</p>
-                
-                <div class="admin-panel">
-                    <h2>Content Management</h2>
-                    <div class="admin-controls">
-                        <div class="admin-control">
-                            <h3>Blog Posts</h3>
-                            <p>Create and manage blog content</p>
-                            <button class="btn btn-outline" onclick="showBlogManager()">Manage Posts</button>
-                        </div>
-                        <div class="admin-control">
-                            <h3>Courses</h3>
-                            <p>Manage academy courses</p>
-                            <button class="btn btn-outline" onclick="showCourseManager()">Manage Courses</button>
-                        </div>
-                        <div class="admin-control">
-                            <h3>User Management</h3>
-                            <p>View and manage users</p>
-                            <button class="btn btn-outline">Manage Users</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Manager -->
-                <div id="blogManager" style="display: none;">
-                    <div class="admin-panel">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                            <h2>Blog Management</h2>
-                            <button class="btn btn-primary" onclick="openBlogEditor()">
-                                <i class="fas fa-plus"></i> New Blog Post
-                            </button>
-                        </div>
-                        <div class="content-list" id="blogList">
-                            <!-- Blog posts will be listed here -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course Manager -->
-                <div id="courseManager" style="display: none;">
-                    <div class="admin-panel">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                            <h2>Course Management</h2>
-                            <button class="btn btn-primary" onclick="openCourseEditor()">
-                                <i class="fas fa-plus"></i> New Course
-                            </button>
-                        </div>
-                        <div class="content-list" id="courseList">
-                            <!-- Courses will be listed here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Login Page -->
-        <section id="login" class="page">
-            <div class="tool">
-                <h2><i class="fas fa-sign-in-alt"></i> Login to Your Account</h2>
-                <div class="form-group" id="loginEmailGroup">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" placeholder="your@email.com">
-                    <div class="error-message" id="loginEmailError"></div>
-                </div>
-                <div class="form-group" id="loginPasswordGroup">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" placeholder="Your password">
-                    <div class="error-message" id="loginPasswordError"></div>
-                </div>
-                <button class="btn btn-primary" onclick="login()" id="loginBtn">
-                    <span>Login</span>
-                </button>
-                <p>
-                    <a href="#" onclick="showModal('resetPasswordModal'); return false;">Forgot your password?</a>
-                </p>
-                <p>Don't have an account? <a href="#" onclick="showPage('register'); return false;">Register here</a></p>
-            </div>
-        </section>
-
-        <!-- Register Page -->
-        <section id="register" class="page">
-            <div class="tool">
-                <h2><i class="fas fa-user-plus"></i> Create an Account</h2>
-                <div class="form-group" id="registerNameGroup">
-                    <label for="registerName">Full Name</label>
-                    <input type="text" id="registerName" placeholder="Your name">
-                    <div class="error-message" id="registerNameError"></div>
-                </div>
-                <div class="form-group" id="registerEmailGroup">
-                    <label for="registerEmail">Email</label>
-                    <input type="email" id="registerEmail" placeholder="your@email.com">
-                    <div class="error-message" id="registerEmailError"></div>
-                </div>
-                <div class="form-group" id="registerPasswordGroup">
-                    <label for="registerPassword">Password</label>
-                    <input type="password" id="registerPassword" placeholder="Create a password">
-                    <div class="error-message" id="registerPasswordError"></div>
-                </div>
-                <div class="form-group" id="registerPasswordConfirmGroup">
-                    <label for="registerPasswordConfirm">Confirm Password</label>
-                    <input type="password" id="registerPasswordConfirm" placeholder="Confirm your password">
-                    <div class="error-message" id="registerPasswordConfirmError"></div>
-                </div>
-                <button class="btn btn-primary" onclick="register()" id="registerBtn">
-                    <span>Register</span>
-                </button>
-                <p>Already have an account? <a href="#" onclick="showPage('login'); return false;">Login here</a></p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Tradeflow HQ</h3>
-                    <p>All in one hub for Forex Traders and Online Business Education.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#" onclick="showPage('home'); return false;">Home</a></li>
-                        <li><a href="#" onclick="showPage('blog'); return false;">Blog</a></li>
-                        <li><a href="#" onclick="showPage('tools'); return false;">Tools</a></li>
-                        <li><a href="#" onclick="showPage('academy'); return false;">Academy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Disclaimer</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#" onclick="showModal('resetPasswordModal'); return false;">Reset Password</a></li>
-                        <li><a href="mailto:support@tradeflowhq.com">Contact Us</a></li>
-                        <li><a href="https://flutterwave.com/pay/kp9tpqjve6cj" target="_blank">Upgrade to Premium</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 Tradeflow HQ. All rights reserved.</p>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
-    
-    <script>
-        // Firebase configuration - you'll need to replace this with your own config
-        const firebaseConfig = {
-  apiKey: "AIzaSyCN-4ptseDOfTFgH8PcAmUVp316i1Wa-jg",
-  authDomain: "tradeflowhq-aabc3.firebaseapp.com",
-  projectId: "tradeflowhq-aabc3",
-  storageBucket: "tradeflowhq-aabc3.firebasestorage.app",
-  messagingSenderId: "847322653605",
-  appId: "1:847322653605:web:d2a7370eb28b0c2c903e4c",
-  measurementId: "G-0JZX0NGRFX"
-};
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const functions = firebase.functions();
-        
-        // Current editing state
-        let currentEditingBlogId = null;
-        let currentEditingCourseId = null;
-        
-        // Utility functions
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `
-                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
-                <span>${message}</span>
-            `;
-            
-            document.getElementById('toastContainer').appendChild(toast);
-            
-            // Show toast
-            setTimeout(() => toast.classList.add('show'), 10);
-            
-            // Hide toast after 5 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 5000);
-        }
-        
-        function showModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            
-            // Reset editing state if closing editors
-            if (modalId === 'blogEditorModal') {
-                currentEditingBlogId = null;
-                resetBlogForm();
-            } else if (modalId === 'courseEditorModal') {
-                currentEditingCourseId = null;
-                resetCourseForm();
-            }
-        }
-        
-        function setLoading(button, isLoading) {
-            const btn = document.getElementById(button);
-            if (isLoading) {
-                btn.disabled = true;
-                btn.querySelector('span').innerHTML = '<div class="spinner"></div> Loading...';
-            } else {
-                btn.disabled = false;
-                // Reset button text based on ID
-                if (button === 'loginBtn') btn.querySelector('span').textContent = 'Login';
-                else if (button === 'registerBtn') btn.querySelector('span').textContent = 'Register';
-                else if (button === 'pipCalculateBtn') btn.querySelector('span').textContent = 'Calculate';
-                else if (button === 'riskCalculateBtn') btn.querySelector('span').textContent = 'Calculate';
-                else if (button === 'saveTradeBtn') btn.querySelector('span').textContent = 'Save Trade';
-                else if (button === 'resetPasswordBtn') btn.querySelector('span').textContent = 'Send Reset Link';
-                else if (button === 'saveBlogBtn') btn.querySelector('span').textContent = 'Publish Blog Post';
-                else if (button === 'saveCourseBtn') btn.querySelector('span').textContent = 'Save Course';
-            }
-        }
-        
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-        
-        function validatePassword(password) {
-            return password.length >= 6;
-        }
-        
-        function clearErrors(formPrefix) {
-            const groups = document.querySelectorAll(`[id^="${formPrefix}"]`);
-            groups.forEach(group => {
-                if (group.id.endsWith('Group')) {
-                    group.classList.remove('error');
-                }
-            });
-        }
-        
-        function setError(groupId, message) {
-            const group = document.getElementById(groupId);
-            group.classList.add('error');
-            const errorElement = group.querySelector('.error-message');
-            if (errorElement) {
-                errorElement.textContent = message;
-            }
-        }
-        
-        // Text editor functions
-        function formatText(format, textareaId = 'blogContent') {
-            const textarea = document.getElementById(textareaId);
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-            const selectedText = textarea.value.substring(start, end);
-            
-            let formattedText = '';
-            
-            switch(format) {
-                case 'bold':
-                    formattedText = `**${selectedText}**`;
-                    break;
-                case 'italic':
-                    formattedText = `*${selectedText}*`;
-                    break;
-                case 'underline':
-                    formattedText = `__${selectedText}__`;
-                    break;
-            }
-            
-            textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
-            textarea.focus();
-            textarea.setSelectionRange(start + formattedText.length, start + formattedText.length);
-        }
-        
-        function insertHeading(textareaId = 'blogContent') {
-            const textarea = document.getElementById(textareaId);
-            const start = textarea.selectionStart;
-            
-            textarea.value = textarea.value.substring(0, start) + '\n## Heading\n' + textarea.value.substring(start);
-            textarea.focus();
-            textarea.setSelectionRange(start + 8, start + 15);
-        }
-        
-        function insertList(type, textareaId = 'blogContent') {
-            const textarea = document.getElementById(textareaId);
-            const start = textarea.selectionStart;
-            
-            const listText = type === 'ul' ? '\n- List item 1\n- List item 2\n- List item 3\n' : '\n1. List item 1\n2. List item 2\n3. List item 3\n';
-            
-            textarea.value = textarea.value.substring(0, start) + listText + textarea.value.substring(start);
-            textarea.focus();
-            textarea.setSelectionRange(start + 2, start + 12);
-        }
-        
-        // Page navigation
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Show the requested page
-            document.getElementById(pageId).classList.add('active');
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-            
-            // Update navigation active state
-            document.querySelectorAll('nav a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            const activeLink = document.querySelector(`nav a[onclick*="${pageId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-            
-            // Load content for specific pages
-            if (pageId === 'blog') {
-                loadBlogPosts();
-            } else if (pageId === 'academy') {
-                loadCourses();
-            }
-        }
-        
-        // Check authentication state
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // User is signed in
-                document.getElementById('authButtons').style.display = 'none';
-                document.getElementById('userMenu').style.display = 'block';
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2>Get Lifetime Access Today</h2>
+            <div class="price-card">
+                <h3>One-Time Investment</h3>
+                <div class="price"><span>£</span>150</div>
+                <p class="price-note">No recurring fees, no hidden charges</p>
                 
-                // Show protected content
-                document.getElementById('toolsLoginRequired').style.display = 'none';
-                document.getElementById('toolsContent').style.display = 'block';
+                <div class="payment-options">
+                    <a href="https://flutterwave.com/pay/ansbux2r00xz" class="payment-btn">
+                        <i class="fas fa-credit-card"></i> Pay with Flutterwave
+                    </a>
+                    <a href="https://wa.me/2347079026347" class="payment-btn">
+                        <i class="fab fa-whatsapp"></i> Pay via WhatsApp
+                    </a>
+                </div>
                 
-                document.getElementById('academyLoginRequired').style.display = 'none';
-                document.getElementById('academyFreeContent').style.display = 'block';
-                
-                // Check if user has premium access
-                checkPremiumStatus(user.uid);
-                
-                // Check if user is admin
-                checkAdminStatus(user.uid);
-                
-                // Load user data
-                loadUserData(user.uid);
-            } else {
-                // User is signed out
-                document.getElementById('authButtons').style.display = 'flex';
-                document.getElementById('userMenu').style.display = 'none';
-                
-                // Hide protected content
-                document.getElementById('toolsLoginRequired').style.display = 'block';
-                document.getElementById('toolsContent').style.display = 'none';
-                
-                document.getElementById('academyLoginRequired').style.display = 'block';
-                document.getElementById('academyFreeContent').style.display = 'none';
-                document.getElementById('academyPremiumContent').style.display = 'none';
-                
-                document.getElementById('adminLoginRequired').style.display = 'block';
-                document.getElementById('adminContent').style.display = 'none';
-            }
-        });
-        
-        // Login function
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Clear previous errors
-            clearErrors('login');
-            
-            let isValid = true;
-            
-            // Validate email
-            if (!email) {
-                setError('loginEmailGroup', 'Email is required');
-                isValid = false;
-            } else if (!validateEmail(email)) {
-                setError('loginEmailGroup', 'Please enter a valid email address');
-                isValid = false;
-            }
-            
-            // Validate password
-            if (!password) {
-                setError('loginPasswordGroup', 'Password is required');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            setLoading('loginBtn', true);
-            
-            auth.signInWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    // Signed in 
-                    showToast('Login successful!', 'success');
-                    showPage('tools');
-                })
-                .catch(error => {
-                    let errorMessage = 'Login error: ' + error.message;
-                    
-                    if (error.code === 'auth/user-not-found') {
-                        errorMessage = 'No account found with this email';
-                    } else if (error.code === 'auth/wrong-password') {
-                        errorMessage = 'Incorrect password';
-                    } else if (error.code === 'auth/user-disabled') {
-                        errorMessage = 'This account has been disabled';
-                    }
-                    
-                    showToast(errorMessage, 'error');
-                })
-                .finally(() => {
-                    setLoading('loginBtn', false);
-                });
-        }
-        
-        // Register function
-        function register() {
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerPasswordConfirm').value;
-            
-            // Clear previous errors
-            clearErrors('register');
-            
-            let isValid = true;
-            
-            // Validate name
-            if (!name) {
-                setError('registerNameGroup', 'Name is required');
-                isValid = false;
-            }
-            
-            // Validate email
-            if (!email) {
-                setError('registerEmailGroup', 'Email is required');
-                isValid = false;
-            } else if (!validateEmail(email)) {
-                setError('registerEmailGroup', 'Please enter a valid email address');
-                isValid = false;
-            }
-            
-            // Validate password
-            if (!password) {
-                setError('registerPasswordGroup', 'Password is required');
-                isValid = false;
-            } else if (!validatePassword(password)) {
-                setError('registerPasswordGroup', 'Password must be at least 6 characters');
-                isValid = false;
-            }
-            
-            // Validate confirm password
-            if (password !== confirmPassword) {
-                setError('registerPasswordConfirmGroup', 'Passwords do not match');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            setLoading('registerBtn', true);
-            
-            auth.createUserWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    // Signed up
-                    const user = userCredential.user;
-                    
-                    // Save user profile
-                    return db.collection('users').doc(user.uid).set({
-                        name: name,
-                        email: email,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        premium: false,
-                        admin: false
-                    });
-                })
-                .then(() => {
-                    showToast('Registration successful!', 'success');
-                    showPage('tools');
-                })
-                .catch(error => {
-                    let errorMessage = 'Registration error: ' + error.message;
-                    
-                    if (error.code === 'auth/email-already-in-use') {
-                        errorMessage = 'This email is already registered';
-                    } else if (error.code === 'auth/weak-password') {
-                        errorMessage = 'Password is too weak';
-                    } else if (error.code === 'auth/invalid-email') {
-                        errorMessage = 'Invalid email address';
-                    }
-                    
-                    showToast(errorMessage, 'error');
-                })
-                .finally(() => {
-                    setLoading('registerBtn', false);
-                });
-        }
-        
-        // Password reset function
-        function sendPasswordReset() {
-            const email = document.getElementById('resetEmail').value;
-            
-            // Clear previous errors
-            clearErrors('reset');
-            
-            if (!email) {
-                setError('resetEmailGroup', 'Email is required');
-                return;
-            } else if (!validateEmail(email)) {
-                setError('resetEmailGroup', 'Please enter a valid email address');
-                return;
-            }
-            
-            setLoading('resetPasswordBtn', true);
-            
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    showToast('Password reset email sent! Please check your inbox.', 'success');
-                    closeModal('resetPasswordModal');
-                })
-                .catch(error => {
-                    let errorMessage = 'Error sending reset email: ' + error.message;
-                    
-                    if (error.code === 'auth/user-not-found') {
-                        errorMessage = 'No account found with this email';
-                    } else if (error.code === 'auth/invalid-email') {
-                        errorMessage = 'Invalid email address';
-                    }
-                    
-                    showToast(errorMessage, 'error');
-                })
-                .finally(() => {
-                    setLoading('resetPasswordBtn', false);
-                });
-        }
-        
-        // Logout function
-        function logout() {
-            auth.signOut().then(() => {
-                showToast('Logged out successfully', 'info');
-                showPage('home');
-            });
-        }
-        
-        // Check premium status
-        function checkPremiumStatus(uid) {
-            db.collection('users').doc(uid).get()
-                .then(doc => {
-                    if (doc.exists && doc.data().premium) {
-                        document.getElementById('academyFreeContent').style.display = 'none';
-                        document.getElementById('academyPremiumContent').style.display = 'block';
-                    }
-                });
-        }
-        
-        // Check admin status
-        function checkAdminStatus(uid) {
-            db.collection('users').doc(uid).get()
-                .then(doc => {
-                    if (doc.exists && doc.data().admin) {
-                        // Show admin tab in navigation
-                        document.getElementById('adminNavItem').style.display = 'list-item';
-                        
-                        document.getElementById('adminLoginRequired').style.display = 'none';
-                        document.getElementById('adminContent').style.display = 'block';
-                    }
-                });
-        }
-        
-        // Load blog posts for public view
-        function loadBlogPosts() {
-            const blogContainer = document.getElementById('blogPostsContainer');
-            blogContainer.innerHTML = '<p>Loading blog posts...</p>';
-            
-            db.collection('blogPosts')
-                .where('published', '==', true)
-                .orderBy('createdAt', 'desc')
-                .get()
-                .then(querySnapshot => {
-                    if (querySnapshot.empty) {
-                        blogContainer.innerHTML = '<p>No blog posts available yet.</p>';
-                        return;
-                    }
-                    
-                    blogContainer.innerHTML = '';
-                    
-                    querySnapshot.forEach(doc => {
-                        const post = doc.data();
-                        const postDate = post.createdAt ? new Date(post.createdAt.toDate()).toLocaleDateString() : 'Unknown date';
-                        
-                        const blogCard = document.createElement('div');
-                        blogCard.className = 'blog-card';
-                        blogCard.innerHTML = `
-                            <img src="${post.image || 'https://via.placeholder.com/400x200?text=Tradeflow+Blog'}" alt="${post.title}">
-                            <div class="blog-content">
-                                <h3>${post.title}</h3>
-                                <div class="blog-meta">${postDate} | ${post.category || 'Uncategorized'}</div>
-                                <p>${post.summary || 'No summary available'}</p>
-                                <a href="#" class="read-more" onclick="viewBlogPost('${doc.id}')">Read More</a>
-                            </div>
-                        `;
-                        
-                        blogContainer.appendChild(blogCard);
-                    });
-                })
-                .catch(error => {
-                    blogContainer.innerHTML = '<p>Error loading blog posts. Please try again later.</p>';
-                    console.error('Error loading blog posts:', error);
-                });
-        }
-        
-        // View individual blog post
-        function viewBlogPost(postId) {
-            // This would typically open a modal or navigate to a dedicated post page
-            db.collection('blogPosts').doc(postId).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const post = doc.data();
-                        alert(`Blog Post: ${post.title}\n\n${post.content}`);
-                    } else {
-                        showToast('Blog post not found', 'error');
-                    }
-                })
-                .catch(error => {
-                    showToast('Error loading blog post', 'error');
-                    console.error('Error loading blog post:', error);
-                });
-        }
-        
-        // Load courses for academy
-        function loadCourses() {
-            const coursesContainer = document.getElementById('coursesContainer');
-            const premiumContainer = document.getElementById('premiumCoursesContainer');
-            
-            coursesContainer.innerHTML = '<p>Loading courses...</p>';
-            premiumContainer.innerHTML = '<p>Loading premium courses...</p>';
-            
-            // Load free courses
-            db.collection('courses')
-                .where('published', '==', true)
-                .where('premium', '==', false)
-                .orderBy('createdAt', 'desc')
-                .get()
-                .then(querySnapshot => {
-                    if (querySnapshot.empty) {
-                        coursesContainer.innerHTML = '<p>No free courses available yet.</p>';
-                    } else {
-                        coursesContainer.innerHTML = '';
-                        
-                        querySnapshot.forEach(doc => {
-                            const course = doc.data();
-                            const courseCard = createCourseCard(course, doc.id, false);
-                            coursesContainer.appendChild(courseCard);
-                        });
-                    }
-                })
-                .catch(error => {
-                    coursesContainer.innerHTML = '<p>Error loading courses. Please try again later.</p>';
-                    console.error('Error loading courses:', error);
-                });
-            
-            // Load premium courses
-            db.collection('courses')
-                .where('published', '==', true)
-                .where('premium', '==', true)
-                .orderBy('createdAt', 'desc')
-                .get()
-                .then(querySnapshot => {
-                    if (querySnapshot.empty) {
-                        premiumContainer.innerHTML = '<p>No premium courses available yet.</p>';
-                    } else {
-                        premiumContainer.innerHTML = '';
-                        
-                        querySnapshot.forEach(doc => {
-                            const course = doc.data();
-                            const courseCard = createCourseCard(course, doc.id, true);
-                            premiumContainer.appendChild(courseCard);
-                        });
-                    }
-                })
-                .catch(error => {
-                    premiumContainer.innerHTML = '<p>Error loading premium courses. Please try again later.</p>';
-                    console.error('Error loading premium courses:', error);
-                });
-        }
-        
-        // Create course card HTML
-        function createCourseCard(course, courseId, isPremium) {
-            const card = document.createElement('div');
-            card.className = 'feature-card';
-            
-            card.innerHTML = `
-                <h3><i class="fas ${isPremium ? 'fa-crown' : 'fa-play-circle'}"></i> ${course.title}</h3>
-                <p>${course.description || 'No description available'}</p>
-                <p><strong>Level:</strong> ${course.level || 'Not specified'}</p>
-                <p><strong>Category:</strong> ${course.category || 'Uncategorized'}</p>
-                ${isPremium ? 
-                    `<a href="https://flutterwave.com/pay/kp9tpqjve6cj" class="btn btn-primary" target="_blank">
-                        Upgrade to Access
-                    </a>` : 
-                    `<button class="btn btn-outline">Access Course</button>`
-                }
-            `;
-            
-            return card;
-        }
-        
-        // Show blog manager in admin panel
-        function showBlogManager() {
-            document.getElementById('blogManager').style.display = 'block';
-            document.getElementById('courseManager').style.display = 'none';
-            loadBlogList();
-        }
-        
-        // Show course manager in admin panel
-        function showCourseManager() {
-            document.getElementById('blogManager').style.display = 'none';
-            document.getElementById('courseManager').style.display = 'block';
-            loadCourseList();
-        }
-        
-        // Load blog posts for admin management
-        function loadBlogList() {
-            const blogList = document.getElementById('blogList');
-            blogList.innerHTML = '<p>Loading blog posts...</p>';
-            
-            db.collection('blogPosts')
-                .orderBy('createdAt', 'desc')
-                .get()
-                .then(querySnapshot => {
-                    if (querySnapshot.empty) {
-                        blogList.innerHTML = '<p>No blog posts found. Create your first one!</p>';
-                        return;
-                    }
-                    
-                    blogList.innerHTML = '';
-                    
-                    querySnapshot.forEach(doc => {
-                        const post = doc.data();
-                        const postDate = post.createdAt ? new Date(post.createdAt.toDate()).toLocaleDateString() : 'Unknown date';
-                        
-                        const contentItem = document.createElement('div');
-                        contentItem.className = 'content-item';
-                        contentItem.innerHTML = `
-                            <div class="content-item-info">
-                                <h3>${post.title}</h3>
-                                <div class="content-item-meta">
-                                    ${postDate} | ${post.category || 'Uncategorized'} | 
-                                    Status: ${post.published ? 'Published' : 'Draft'}
-                                </div>
-                            </div>
-                            <div class="content-item-actions">
-                                <button class="btn btn-outline" onclick="editBlogPost('${doc.id}')">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger" onclick="deleteBlogPost('${doc.id}')">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>
-                        `;
-                        
-                        blogList.appendChild(contentItem);
-                    });
-                })
-                .catch(error => {
-                    blogList.innerHTML = '<p>Error loading blog posts. Please try again later.</p>';
-                    console.error('Error loading blog posts:', error);
-                });
-        }
-        
-        // Load courses for admin management
-        function loadCourseList() {
-            const courseList = document.getElementById('courseList');
-            courseList.innerHTML = '<p>Loading courses...</p>';
-            
-            db.collection('courses')
-                .orderBy('createdAt', 'desc')
-                .get()
-                .then(querySnapshot => {
-                    if (querySnapshot.empty) {
-                        courseList.innerHTML = '<p>No courses found. Create your first one!</p>';
-                        return;
-                    }
-                    
-                    courseList.innerHTML = '';
-                    
-                    querySnapshot.forEach(doc => {
-                        const course = doc.data();
-                        const courseDate = course.createdAt ? new Date(course.createdAt.toDate()).toLocaleDateString() : 'Unknown date';
-                        
-                        const contentItem = document.createElement('div');
-                        contentItem.className = 'content-item';
-                        contentItem.innerHTML = `
-                            <div class="content-item-info">
-                                <h3>${course.title} ${course.premium ? '(Premium)' : '(Free)'}</h3>
-                                <div class="content-item-meta">
-                                    ${courseDate} | ${course.category || 'Uncategorized'} | 
-                                    Level: ${course.level || 'Not specified'} | 
-                                    Status: ${course.published ? 'Published' : 'Draft'}
-                                </div>
-                            </div>
-                            <div class="content-item-actions">
-                                <button class="btn btn-outline" onclick="editCourse('${doc.id}')">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger" onclick="deleteCourse('${doc.id}')">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>
-                        `;
-                        
-                        courseList.appendChild(contentItem);
-                    });
-                })
-                .catch(error => {
-                    courseList.innerHTML = '<p>Error loading courses. Please try again later.</p>';
-                    console.error('Error loading courses:', error);
-                });
-        }
-        
-        // Open blog editor for new post
-        function openBlogEditor() {
-            currentEditingBlogId = null;
-            document.getElementById('blogEditorTitle').textContent = 'Add New Blog Post';
-            resetBlogForm();
-            showModal('blogEditorModal');
-        }
-        
-        // Reset blog form
-        function resetBlogForm() {
-            document.getElementById('blogTitle').value = '';
-            document.getElementById('blogSummary').value = '';
-            document.getElementById('blogContent').value = '';
-            document.getElementById('blogImage').value = '';
-            document.getElementById('blogCategory').value = 'Forex Basics';
-            clearErrors('blog');
-        }
-        
-        // Edit existing blog post
-        function editBlogPost(blogId) {
-            currentEditingBlogId = blogId;
-            
-            db.collection('blogPosts').doc(blogId).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const post = doc.data();
-                        
-                        document.getElementById('blogEditorTitle').textContent = 'Edit Blog Post';
-                        document.getElementById('blogTitle').value = post.title || '';
-                        document.getElementById('blogSummary').value = post.summary || '';
-                        document.getElementById('blogContent').value = post.content || '';
-                        document.getElementById('blogImage').value = post.image || '';
-                        document.getElementById('blogCategory').value = post.category || 'Forex Basics';
-                        
-                        showModal('blogEditorModal');
-                    } else {
-                        showToast('Blog post not found', 'error');
-                    }
-                })
-                .catch(error => {
-                    showToast('Error loading blog post', 'error');
-                    console.error('Error loading blog post:', error);
-                });
-        }
-        
-        // Save blog post
-        function saveBlogPost() {
-            const title = document.getElementById('blogTitle').value;
-            const summary = document.getElementById('blogSummary').value;
-            const content = document.getElementById('blogContent').value;
-            const image = document.getElementById('blogImage').value;
-            const category = document.getElementById('blogCategory').value;
-            
-            // Clear previous errors
-            clearErrors('blog');
-            
-            let isValid = true;
-            
-            // Validate form
-            if (!title) {
-                setError('blogTitleGroup', 'Title is required');
-                isValid = false;
-            }
-            
-            if (!content) {
-                setError('blogContentGroup', 'Content is required');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            setLoading('saveBlogBtn', true);
-            
-            const blogData = {
-                title: title,
-                summary: summary,
-                content: content,
-                image: image,
-                category: category,
-                published: true,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            
-            // Add createdAt for new posts
-            if (!currentEditingBlogId) {
-                blogData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-            }
-            
-            let savePromise;
-            
-            if (currentEditingBlogId) {
-                // Update existing post
-                savePromise = db.collection('blogPosts').doc(currentEditingBlogId).update(blogData);
-            } else {
-                // Create new post
-                savePromise = db.collection('blogPosts').add(blogData);
-            }
-            
-            savePromise
-                .then(() => {
-                    showToast(`Blog post ${currentEditingBlogId ? 'updated' : 'published'} successfully!`, 'success');
-                    closeModal('blogEditorModal');
-                    loadBlogList();
-                    loadBlogPosts(); // Refresh public view
-                })
-                .catch(error => {
-                    showToast(`Error ${currentEditingBlogId ? 'updating' : 'saving'} blog post: ${error.message}`, 'error');
-                    console.error('Error saving blog post:', error);
-                })
-                .finally(() => {
-                    setLoading('saveBlogBtn', false);
-                });
-        }
-        
-        // Delete blog post
-        function deleteBlogPost(blogId) {
-            if (confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) {
-                db.collection('blogPosts').doc(blogId).delete()
-                    .then(() => {
-                        showToast('Blog post deleted successfully', 'success');
-                        loadBlogList();
-                        loadBlogPosts(); // Refresh public view
-                    })
-                    .catch(error => {
-                        showToast('Error deleting blog post: ' + error.message, 'error');
-                        console.error('Error deleting blog post:', error);
-                    });
-            }
-        }
-        
-        // Open course editor for new course
-        function openCourseEditor() {
-            currentEditingCourseId = null;
-            document.getElementById('courseEditorTitle').textContent = 'Add New Course';
-            resetCourseForm();
-            showModal('courseEditorModal');
-        }
-        
-        // Reset course form
-        function resetCourseForm() {
-            document.getElementById('courseTitle').value = '';
-            document.getElementById('courseDescription').value = '';
-            document.getElementById('courseContent').value = '';
-            document.getElementById('courseImage').value = '';
-            document.getElementById('courseLevel').value = 'Beginner';
-            document.getElementById('courseCategory').value = 'Forex Trading';
-            document.getElementById('coursePremium').value = 'free';
-            clearErrors('course');
-        }
-        
-        // Edit existing course
-        function editCourse(courseId) {
-            currentEditingCourseId = courseId;
-            
-            db.collection('courses').doc(courseId).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        const course = doc.data();
-                        
-                        document.getElementById('courseEditorTitle').textContent = 'Edit Course';
-                        document.getElementById('courseTitle').value = course.title || '';
-                        document.getElementById('courseDescription').value = course.description || '';
-                        document.getElementById('courseContent').value = course.content || '';
-                        document.getElementById('courseImage').value = course.image || '';
-                        document.getElementById('courseLevel').value = course.level || 'Beginner';
-                        document.getElementById('courseCategory').value = course.category || 'Forex Trading';
-                        document.getElementById('coursePremium').value = course.premium ? 'premium' : 'free';
-                        
-                        showModal('courseEditorModal');
-                    } else {
-                        showToast('Course not found', 'error');
-                    }
-                })
-                .catch(error => {
-                    showToast('Error loading course', 'error');
-                    console.error('Error loading course:', error);
-                });
-        }
-        
-        // Save course
-        function saveCourse() {
-            const title = document.getElementById('courseTitle').value;
-            const description = document.getElementById('courseDescription').value;
-            const content = document.getElementById('courseContent').value;
-            const image = document.getElementById('courseImage').value;
-            const level = document.getElementById('courseLevel').value;
-            const category = document.getElementById('courseCategory').value;
-            const premium = document.getElementById('coursePremium').value === 'premium';
-            
-            // Clear previous errors
-            clearErrors('course');
-            
-            let isValid = true;
-            
-            // Validate form
-            if (!title) {
-                setError('courseTitleGroup', 'Title is required');
-                isValid = false;
-            }
-            
-            if (!content) {
-                setError('courseContentGroup', 'Content is required');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            setLoading('saveCourseBtn', true);
-            
-            const courseData = {
-                title: title,
-                description: description,
-                content: content,
-                image: image,
-                level: level,
-                category: category,
-                premium: premium,
-                published: true,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            
-            // Add createdAt for new courses
-            if (!currentEditingCourseId) {
-                courseData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-            }
-            
-            let savePromise;
-            
-            if (currentEditingCourseId) {
-                // Update existing course
-                savePromise = db.collection('courses').doc(currentEditingCourseId).update(courseData);
-            } else {
-                // Create new course
-                savePromise = db.collection('courses').add(courseData);
-            }
-            
-            savePromise
-                .then(() => {
-                    showToast(`Course ${currentEditingCourseId ? 'updated' : 'created'} successfully!`, 'success');
-                    closeModal('courseEditorModal');
-                    loadCourseList();
-                    loadCourses(); // Refresh public view
-                })
-                .catch(error => {
-                    showToast(`Error ${currentEditingCourseId ? 'updating' : 'saving'} course: ${error.message}`, 'error');
-                    console.error('Error saving course:', error);
-                })
-                .finally(() => {
-                    setLoading('saveCourseBtn', false);
-                });
-        }
-        
-        // Delete course
-        function deleteCourse(courseId) {
-            if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
-                db.collection('courses').doc(courseId).delete()
-                    .then(() => {
-                        showToast('Course deleted successfully', 'success');
-                        loadCourseList();
-                        loadCourses(); // Refresh public view
-                    })
-                    .catch(error => {
-                        showToast('Error deleting course: ' + error.message, 'error');
-                        console.error('Error deleting course:', error);
-                    });
-            }
-        }
-        
-        // PIP Calculator
-        function calculatePip() {
-            const pair = document.getElementById('currencyPair').value;
-            const size = parseFloat(document.getElementById('tradeSize').value) || 0;
-            
-            // Clear previous errors
-            clearErrors('pip');
-            
-            let isValid = true;
-            
-            // Validate trade size
-            if (!size || size <= 0) {
-                setError('pipTradeSizeGroup', 'Please enter a valid trade size');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            setLoading('pipCalculateBtn', true);
-            
-            // Simulate API call delay
-            setTimeout(() => {
-                // Simplified PIP calculation
-                // In a real app, you would use current exchange rates
-                let pipValue = 0;
-                
-                if (pair === 'EUR/USD') pipValue = 10 * size;
-                else if (pair === 'GBP/USD') pipValue = 10 * size;
-                else if (pair === 'USD/JPY') pipValue = 9 * size;
-                else if (pair === 'AUD/USD') pipValue = 10 * size;
-                else if (pair === 'USD/CAD') pipValue = 7.5 * size;
-                
-                document.getElementById('pipValue').textContent = 
-                    `PIP Value: $${pipValue.toFixed(2)} for ${size} lot(s) of ${pair}`;
-                document.getElementById('pipResult').classList.add('active');
-                
-                setLoading('pipCalculateBtn', false);
-            }, 800);
-        }
-        
-        // Risk Calculator
-        function calculateRisk() {
-            const accountSize = parseFloat(document.getElementById('accountSize').value) || 0;
-            const riskPercentage = parseFloat(document.getElementById('riskPercentage').value) || 0;
-            const stopLoss = parseFloat(document.getElementById('stopLoss').value) || 0;
-            
-            // Clear previous errors
-            clearErrors('risk');
-            
-            let isValid = true;
-            
-            // Validate account size
-            if (!accountSize || accountSize <= 0) {
-                setError('riskAccountSizeGroup', 'Please enter a valid account size');
-                isValid = false;
-            }
-            
-            // Validate risk percentage
-            if (!riskPercentage || riskPercentage <= 0 || riskPercentage > 10) {
-                setError('riskPercentageGroup', 'Please enter a risk percentage between 0.1 and 10');
-                isValid = false;
-            }
-            
-            // Validate stop loss
-            if (!stopLoss || stopLoss <= 0) {
-                setError('riskStopLossGroup', 'Please enter a valid stop loss value');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            setLoading('riskCalculateBtn', true);
-            
-            // Simulate API call delay
-            setTimeout(() => {
-                const riskAmount = accountSize * (riskPercentage / 100);
-                const positionSize = riskAmount / (stopLoss * 0.0001); // Simplified calculation
-                
-                document.getElementById('riskValue').textContent = 
-                    `Risk Amount: $${riskAmount.toFixed(2)} | Position Size: $${positionSize.toFixed(2)}`;
-                document.getElementById('riskResult').classList.add('active');
-                
-                setLoading('riskCalculateBtn', false);
-            }, 800);
-        }
-        
-        // Save trade to journal
-        function saveTrade() {
-            const user = auth.currentUser;
-            if (!user) {
-                showToast('Please log in to save trades', 'error');
-                showPage('login');
-                return;
-            }
-            
-            const trade = {
-                date: document.getElementById('tradeDate').value,
-                symbol: document.getElementById('tradeSymbol').value,
-                type: document.getElementById('tradeType').value,
-                size: parseFloat(document.getElementById('tradeSizeJournal').value) || 0,
-                entry: parseFloat(document.getElementById('tradeEntry').value) || 0,
-                exit: parseFloat(document.getElementById('tradeExit').value) || 0,
-                notes: document.getElementById('tradeNotes').value,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            
-            // Clear previous errors
-            clearErrors('journal');
-            
-            let isValid = true;
-            
-            // Validate date
-            if (!trade.date) {
-                setError('journalDateGroup', 'Date is required');
-                isValid = false;
-            }
-            
-            // Validate symbol
-            if (!trade.symbol) {
-                setError('journalSymbolGroup', 'Symbol is required');
-                isValid = false;
-            }
-            
-            // Validate size
-            if (!trade.size || trade.size <= 0) {
-                setError('journalSizeGroup', 'Please enter a valid trade size');
-                isValid = false;
-            }
-            
-            // Validate entry price
-            if (!trade.entry || trade.entry <= 0) {
-                setError('journalEntryGroup', 'Please enter a valid entry price');
-                isValid = false;
-            }
-            
-            // Validate exit price
-            if (!trade.exit || trade.exit <= 0) {
-                setError('journalExitGroup', 'Please enter a valid exit price');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            setLoading('saveTradeBtn', true);
-            
-            db.collection('users').doc(user.uid).collection('trades').add(trade)
-                .then(() => {
-                    showToast('Trade saved successfully!', 'success');
-                    loadUserData(user.uid);
-                    
-                    // Clear form
-                    document.getElementById('tradeDate').value = '';
-                    document.getElementById('tradeSymbol').value = '';
-                    document.getElementById('tradeSizeJournal').value = '';
-                    document.getElementById('tradeEntry').value = '';
-                    document.getElementById('tradeExit').value = '';
-                    document.getElementById('tradeNotes').value = '';
-                })
-                .catch(error => {
-                    showToast('Error saving trade: ' + error.message, 'error');
-                })
-                .finally(() => {
-                    setLoading('saveTradeBtn', false);
-                });
-        }
-        
-        // Load user data (trades)
-        function loadUserData(uid) {
-            // Load trades
-            db.collection('users').doc(uid).collection('trades')
-                .orderBy('createdAt', 'desc')
-                .get()
-                .then(querySnapshot => {
-                    const tradesList = document.getElementById('tradesList');
-                    tradesList.innerHTML = '';
-                    
-                    if (querySnapshot.empty) {
-                        tradesList.innerHTML = '<p>No trades recorded yet.</p>';
-                        return;
-                    }
-                    
-                    querySnapshot.forEach(doc => {
-                        const trade = doc.data();
-                        const tradeDate = new Date(trade.date).toLocaleDateString();
-                        const profitLoss = trade.type === 'buy' 
-                            ? (trade.exit - trade.entry) * trade.size * 10000
-                            : (trade.entry - trade.exit) * trade.size * 10000;
-                        
-                        const profitLossClass = profitLoss >= 0 ? 'success' : 'danger';
-                        const profitLossIcon = profitLoss >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
-                        
-                        const tradeEl = document.createElement('div');
-                        tradeEl.className = 'trade-item';
-                        tradeEl.innerHTML = `
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                <h4>${trade.symbol} ${trade.type.toUpperCase()}</h4>
-                                <span class="text-${profitLossClass}">
-                                    <i class="fas ${profitLossIcon}"></i> $${Math.abs(profitLoss).toFixed(2)}
-                                </span>
-                            </div>
-                            <p>Size: ${trade.size} lot(s) | Entry: ${trade.entry} | Exit: ${trade.exit}</p>
-                            <p>Date: ${tradeDate} ${trade.notes ? '| Notes: ' + trade.notes : ''}</p>
-                            <hr style="margin: 1rem 0;">
-                        `;
-                        tradesList.appendChild(tradeEl);
-                    });
-                    
-                    document.getElementById('tradeResult').classList.add('active');
-                });
-        }
-        
-        // Close modal when clicking outside
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) {
-                e.target.classList.remove('active');
-            }
-        });
-        
-        // Set current date as default for trade journal
-        document.getElementById('tradeDate').valueAsDate = new Date();
-        
-        // Initialize the app
-        showPage('home');
-    </script>
+                <p style="margin-top: 20px; font-size: 0.9rem;">Secure payment processed by Flutterwave</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="guarantee">
+        <div class="container">
+            <div class="guarantee-content">
+                <h2>30-Day Money-Back Guarantee</h2>
+                <p>We're confident that TradeFlow Strategy will transform your trading. If you're not completely satisfied within the first 30 days, we'll refund your payment in full, no questions asked.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2>What Our Traders Say</h2>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "The TradeFlow strategy has completely changed how I approach the markets. I've seen consistent returns for the first time in my trading career."
+                    </div>
+                    <div class="testimonial-author">- Mark J., Forex Trader</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "The risk management framework alone is worth the price. I'm sleeping better knowing I have clear rules to protect my capital."
+                    </div>
+                    <div class="testimonial-author">- Sarah L., Stock Trader</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "I've tried countless strategies over the years, but TradeFlow is the first one that actually makes sense and works consistently across different markets."
+                    </div>
+                    <div class="testimonial-author">- David R., Crypto Trader</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="faq-question">What markets does TradeFlow Strategy work for?</div>
+                    <p>The strategy is designed to work across multiple markets including stocks, forex, cryptocurrencies, and commodities.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How much time do I need to implement this strategy?</div>
+                    <p>The strategy requires about 20-30 minutes per day for market analysis once you've completed the training materials.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Do I need prior trading experience?</div>
+                    <p>While some basic understanding of markets is helpful, the strategy is designed to be accessible to both beginners and experienced traders.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What's included in the lifetime access?</div>
+                    <p>You get all current training materials, strategy updates, and access to the community forum forever with no recurring fees.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What if I have questions after purchasing?</div>
+                    <p>You can post questions in our exclusive community forum where our team and other experienced traders are happy to help.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-options">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp</h3>
+                    <p>Chat with us directly for quick responses</p>
+                    <div class="contact-details">
+                        <a href="https://wa.me/2347079026347">
+                            <i class="fab fa-whatsapp"></i> +234 707 902 6347
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Phone</h3>
+                    <p>Call us for more information</p>
+                    <div class="contact-details">
+                        <a href="tel:+447377528088">
+                            <i class="fas fa-phone"></i> +44 7377 528088
+                        </a>
+                        <a href="tel:+2347038842113">
+                            <i class="fas fa-phone"></i> +234 703 884 2113
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Website</h3>
+                    <p>Visit our website for more resources</p>
+                    <div class="contact-details">
+                        <a href="https://tradeflowhq.vercel.app" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> tradeflowhq.vercel.app
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Start Your Trading Transformation Today</h2>
+            <p style="text-align: center; margin-bottom: 30px;">Join thousands of satisfied traders who have revolutionized their approach to markets</p>
+            <div style="text-align: center;">
+                <a href="https://flutterwave.com/pay/ansbux2r00xz" class="btn btn-primary">Get Lifetime Access for £150</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="logo">Trade<span>Flow</span></div>
+            <div class="footer-links">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="https://tradeflowhq.vercel.app" target="_blank">Our Website</a>
+            </div>
+            <p>© 2023 TradeFlow Strategy. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
